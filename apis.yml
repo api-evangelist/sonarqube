@@ -1,0 +1,47 @@
+aid: sonarqube
+name: SonarQube
+description: >-
+  SonarQube is a leading code quality and security platform that provides
+  Web APIs for managing projects, quality gates, issues, and integrations
+  with CI/CD pipelines to deliver clean, secure code.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Code Quality
+  - Security
+  - Static Analysis
+  - DevOps
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/sonarqube/refs/heads/main/apis.yml
+created: '2026-03-16'
+modified: '2026-03-16'
+specificationVersion: '0.19'
+apis:
+  - aid: sonarqube:web-api
+    name: SonarQube Web API
+    description: >-
+      HTTP API for programmatic interaction with SonarQube Server, enabling
+      management of projects, quality gates, issues, rules, users, and
+      integrations with external tools.
+    humanURL: https://docs.sonarsource.com/sonarqube-server/latest/extension-guide/web-api/
+    tags:
+      - Code Quality
+      - Security
+      - Static Analysis
+    properties:
+      - type: Documentation
+        url: https://docs.sonarsource.com/sonarqube-server/latest/extension-guide/web-api/
+      - type: Reference
+        url: https://api-docs.sonarsource.com/
+common:
+  - type: Portal
+    url: https://www.sonarsource.com/products/sonarqube/
+  - type: Documentation
+    url: https://docs.sonarsource.com/sonarqube-server/
+  - type: Reference
+    url: https://api-docs.sonarsource.com/
+  - type: Website
+    url: https://www.sonarsource.com/
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
