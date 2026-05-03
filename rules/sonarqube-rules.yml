@@ -1,0 +1,84 @@
+rules:
+  sonarqube-operation-summary-title-case:
+    description: All operation summaries must use Title Case
+    message: Operation summary "{{value}}" must use Title Case
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-z]*(\\s[A-Z][a-z]*)*$"
+
+  sonarqube-operation-id-required:
+    description: All operations must have an operationId
+    message: Operation must have an operationId
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: operationId
+      function: truthy
+
+  sonarqube-tags-required:
+    description: All operations must be tagged
+    message: Operation must have at least one tag
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: tags
+      function: truthy
+
+  sonarqube-200-response-for-get:
+    description: All GET operations must define a 200 response
+    message: GET operation must have a 200 response defined
+    severity: error
+    given: "$.paths[*].get.responses"
+    then:
+      field: "200"
+      function: truthy
+
+  sonarqube-security-on-protected-routes:
+    description: Non-public endpoints must define security requirements
+    message: Protected operation must define security schemes
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: security
+      function: truthy
+
+  sonarqube-paging-params-on-list:
+    description: List/search operations should support pagination parameters
+    message: Search/list operations should include 'p' and 'ps' pagination parameters
+    severity: info
+    given: "$.paths[*search*].get.parameters[*].name"
+    then:
+      function: enumeration
+      functionOptions:
+        values: [q, p, ps, filter, f]
+
+  sonarqube-response-schema-defined:
+    description: Successful GET responses should have schemas defined
+    message: Response 200 should include a content schema
+    severity: warn
+    given: "$.paths[*].get.responses[200].content"
+    then:
+      function: truthy
+
+  sonarqube-form-encoded-post:
+    description: SonarQube POST endpoints use form-encoded bodies
+    message: >-
+      SonarQube API POST endpoints use application/x-www-form-urlencoded,
+      not application/json
+    severity: info
+    given: "$.paths[*].post.requestBody.content"
+    then:
+      function: truthy
+
+  sonarqube-component-key-param:
+    description: Component-scoped endpoints should use 'component' or 'project' parameter
+    message: Component-scoped operations should use 'component' or 'project' parameter name
+    severity: info
+    given: "$.paths[*].get.parameters[*].name"
+    then:
+      function: enumeration
+      functionOptions:
+        values: [component, project, componentKeys, projectKey, key]

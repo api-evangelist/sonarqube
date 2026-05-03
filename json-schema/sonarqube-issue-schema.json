@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/sonarqube/main/json-schema/sonarqube-issue-schema.json",
+  "title": "Issue",
+  "description": "A SonarQube code issue (bug, vulnerability, code smell, or security hotspot) detected during static analysis.",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "Unique issue key"
+    },
+    "rule": {
+      "type": "string",
+      "description": "Rule key that triggered this issue (e.g., java:S1234)"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["INFO", "MINOR", "MAJOR", "CRITICAL", "BLOCKER"],
+      "description": "Issue severity level"
+    },
+    "component": {
+      "type": "string",
+      "description": "Component key (file) where the issue was found"
+    },
+    "project": {
+      "type": "string",
+      "description": "Project key containing the issue"
+    },
+    "line": {
+      "type": "integer",
+      "description": "Source line number"
+    },
+    "hash": {
+      "type": "string",
+      "description": "Issue hash for deduplication across branches"
+    },
+    "textRange": {
+      "type": "object",
+      "description": "Precise source location",
+      "properties": {
+        "startLine": { "type": "integer" },
+        "endLine": { "type": "integer" },
+        "startOffset": { "type": "integer" },
+        "endOffset": { "type": "integer" }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["OPEN", "CONFIRMED", "REOPENED", "RESOLVED", "CLOSED"],
+      "description": "Current issue status"
+    },
+    "resolution": {
+      "type": "string",
+      "enum": ["FIXED", "FALSE-POSITIVE", "WONTFIX", "REMOVED"],
+      "description": "Resolution when status is RESOLVED or CLOSED"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["CODE_SMELL", "BUG", "VULNERABILITY", "SECURITY_HOTSPOT"],
+      "description": "Issue type"
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable issue description"
+    },
+    "author": {
+      "type": "string",
+      "description": "SCM author of the code that introduced the issue"
+    },
+    "assignee": {
+      "type": "string",
+      "description": "Login of the user assigned to fix the issue"
+    },
+    "creationDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the issue was first detected"
+    },
+    "updateDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the issue was last updated"
+    },
+    "closeDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the issue was closed"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Issue tags for categorization"
+    },
+    "effort": {
+      "type": "string",
+      "description": "Estimated remediation effort (e.g., 5min, 1h)"
+    },
+    "debt": {
+      "type": "string",
+      "description": "Technical debt contribution"
+    },
+    "flows": {
+      "type": "array",
+      "description": "Data flow locations for security vulnerabilities",
+      "items": {
+        "type": "object",
+        "properties": {
+          "locations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "component": { "type": "string" },
+                "textRange": { "type": "object" },
+                "msg": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["key", "rule", "type", "status"]
+}

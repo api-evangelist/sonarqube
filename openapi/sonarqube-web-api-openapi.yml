@@ -1,0 +1,889 @@
+openapi: 3.1.0
+info:
+  title: SonarQube Web API
+  description: >-
+    The SonarQube Web API provides HTTP endpoints for programmatic interaction
+    with SonarQube Server. It enables management of projects, quality gates,
+    issues, rules, users, groups, permissions, and CI/CD integrations. The API
+    uses token-based authentication and follows REST conventions. It powers
+    the SonarQube web UI and is used for CI/CD integration, custom tooling,
+    and third-party plugin development.
+  version: 10.0.0
+  contact:
+    name: SonarSource
+    url: https://community.sonarsource.com/
+  license:
+    name: GNU Lesser General Public License v3.0
+    url: https://www.gnu.org/licenses/lgpl-3.0.html
+servers:
+  - url: https://{sonarqubeHost}/api
+    description: SonarQube Server
+    variables:
+      sonarqubeHost:
+        default: sonarqube.example.com
+        description: Hostname of your SonarQube instance
+paths:
+  /projects/search:
+    get:
+      operationId: searchProjects
+      summary: Search Projects
+      description: >-
+        Search for projects and components on the SonarQube instance.
+        Supports filtering by organization, quality gate, languages, tags,
+        and analysis date. Returns paginated results with component details.
+      tags:
+        - Projects
+      parameters:
+        - name: q
+          in: query
+          description: Search query to filter projects by name or key
+          schema:
+            type: string
+        - name: p
+          in: query
+          description: Page number (1-based)
+          schema:
+            type: integer
+            default: 1
+        - name: ps
+          in: query
+          description: Page size (max 500)
+          schema:
+            type: integer
+            default: 100
+        - name: filter
+          in: query
+          description: Filter string (e.g. alert_status=OK)
+          schema:
+            type: string
+        - name: qualitygate
+          in: query
+          description: Filter by quality gate name
+          schema:
+            type: string
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved list of projects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectSearchResponse'
+        '401':
+          description: Unauthorized
+  /projects/create:
+    post:
+      operationId: createProject
+      summary: Create Project
+      description: >-
+        Create a new project in SonarQube. Sets the project key, name,
+        visibility (public/private), and optional quality profile associations.
+      tags:
+        - Projects
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequest'
+      responses:
+        '200':
+          description: Project created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectCreateResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+  /projects/delete:
+    post:
+      operationId: deleteProject
+      summary: Delete Project
+      description: >-
+        Delete a project and all its associated data including analysis
+        history, issues, and quality gate status.
+      tags:
+        - Projects
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - project
+              properties:
+                project:
+                  type: string
+                  description: Project key
+      responses:
+        '204':
+          description: Project deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Project not found
+  /issues/search:
+    get:
+      operationId: searchIssues
+      summary: Search Issues
+      description: >-
+        Search for code issues across projects. Supports filtering by
+        severity, type, status, assignee, resolution, language, rule,
+        tags, date ranges, and component scope.
+      tags:
+        - Issues
+      parameters:
+        - name: componentKeys
+          in: query
+          description: Comma-separated list of component keys to scope the search
+          schema:
+            type: string
+        - name: severities
+          in: query
+          description: Comma-separated severities (INFO, MINOR, MAJOR, CRITICAL, BLOCKER)
+          schema:
+            type: string
+        - name: types
+          in: query
+          description: Comma-separated issue types (CODE_SMELL, BUG, VULNERABILITY, SECURITY_HOTSPOT)
+          schema:
+            type: string
+        - name: statuses
+          in: query
+          description: Comma-separated statuses (OPEN, CONFIRMED, REOPENED, RESOLVED, CLOSED)
+          schema:
+            type: string
+        - name: resolved
+          in: query
+          description: Filter by resolution status
+          schema:
+            type: boolean
+        - name: rules
+          in: query
+          description: Comma-separated rule keys
+          schema:
+            type: string
+        - name: languages
+          in: query
+          description: Comma-separated language keys
+          schema:
+            type: string
+        - name: p
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            default: 1
+        - name: ps
+          in: query
+          description: Page size (max 500)
+          schema:
+            type: integer
+            default: 100
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved issues
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssueSearchResponse'
+        '401':
+          description: Unauthorized
+  /qualitygates/list:
+    get:
+      operationId: listQualityGates
+      summary: List Quality Gates
+      description: >-
+        List all quality gates defined in the SonarQube instance.
+        Quality gates define the conditions a project must meet to
+        be considered production-ready.
+      tags:
+        - Quality Gates
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved quality gates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityGateListResponse'
+        '401':
+          description: Unauthorized
+  /qualitygates/project_status:
+    get:
+      operationId: getQualityGateStatus
+      summary: Get Quality Gate Status
+      description: >-
+        Get the quality gate status for a specific project or analysis.
+        Returns overall status (OK/ERROR) and individual condition results.
+      tags:
+        - Quality Gates
+      parameters:
+        - name: projectKey
+          in: query
+          description: Project key
+          schema:
+            type: string
+        - name: analysisId
+          in: query
+          description: Analysis ID (alternative to projectKey)
+          schema:
+            type: string
+        - name: branch
+          in: query
+          description: Branch name
+          schema:
+            type: string
+        - name: pullRequest
+          in: query
+          description: Pull request identifier
+          schema:
+            type: string
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved quality gate status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityGateStatus'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Project not found
+  /measures/component:
+    get:
+      operationId: getComponentMeasures
+      summary: Get Component Measures
+      description: >-
+        Get measures (metrics) for a specific component. Returns values
+        for requested metric keys such as coverage, bugs, vulnerabilities,
+        code smells, duplications, and lines of code.
+      tags:
+        - Measures
+      parameters:
+        - name: component
+          in: query
+          required: true
+          description: Component key
+          schema:
+            type: string
+        - name: metricKeys
+          in: query
+          required: true
+          description: Comma-separated metric keys to retrieve
+          schema:
+            type: string
+        - name: branch
+          in: query
+          description: Branch name
+          schema:
+            type: string
+        - name: pullRequest
+          in: query
+          description: Pull request identifier
+          schema:
+            type: string
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved component measures
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentMeasuresResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Component not found
+  /rules/search:
+    get:
+      operationId: searchRules
+      summary: Search Rules
+      description: >-
+        Search for analysis rules available in SonarQube. Supports filtering
+        by language, type, severity, quality profile, repository, and tags.
+        Rules define the code quality and security checks performed during analysis.
+      tags:
+        - Rules
+      parameters:
+        - name: q
+          in: query
+          description: Search query for rule name or key
+          schema:
+            type: string
+        - name: languages
+          in: query
+          description: Comma-separated language keys
+          schema:
+            type: string
+        - name: types
+          in: query
+          description: Comma-separated rule types
+          schema:
+            type: string
+        - name: severities
+          in: query
+          description: Comma-separated severities
+          schema:
+            type: string
+        - name: repositories
+          in: query
+          description: Comma-separated rule repository keys
+          schema:
+            type: string
+        - name: p
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            default: 1
+        - name: ps
+          in: query
+          description: Page size
+          schema:
+            type: integer
+            default: 100
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleSearchResponse'
+        '401':
+          description: Unauthorized
+  /users/search:
+    get:
+      operationId: searchUsers
+      summary: Search Users
+      description: >-
+        Search for users in the SonarQube instance. Supports filtering by
+        login, name, and group membership. Requires Administer System permission.
+      tags:
+        - Users
+      parameters:
+        - name: q
+          in: query
+          description: Search query to filter by login or name
+          schema:
+            type: string
+        - name: p
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            default: 1
+        - name: ps
+          in: query
+          description: Page size
+          schema:
+            type: integer
+            default: 50
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSearchResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - Insufficient permissions
+  /system/status:
+    get:
+      operationId: getSystemStatus
+      summary: Get System Status
+      description: >-
+        Get the operational status of the SonarQube instance, including
+        server version and whether the system is UP, DOWN, STARTING,
+        RESTARTING, DB_MIGRATION_NEEDED, or DB_MIGRATION_RUNNING.
+      tags:
+        - System
+      responses:
+        '200':
+          description: Successfully retrieved system status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemStatus'
+  /system/health:
+    get:
+      operationId: getSystemHealth
+      summary: Get System Health
+      description: >-
+        Get the health status of the SonarQube cluster including each
+        node's health, causes of issues, and overall cluster health.
+        Requires system passcode or System Administration permission.
+      tags:
+        - System
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved system health
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemHealth'
+        '401':
+          description: Unauthorized
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: >-
+        Basic authentication using a user token as the username and an
+        empty password. Generate tokens in User > My Account > Security.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Bearer token authentication using a SonarQube user token.
+  schemas:
+    ProjectSearchResponse:
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/Paging'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+    Project:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Project key (unique identifier)
+        name:
+          type: string
+          description: Project display name
+        qualifier:
+          type: string
+          enum: [TRK, APP, VW]
+          description: Component qualifier
+        visibility:
+          type: string
+          enum: [public, private]
+        lastAnalysisDate:
+          type: string
+          format: date-time
+          description: Timestamp of the last analysis
+        revision:
+          type: string
+          description: SCM revision of last analysis
+        managed:
+          type: boolean
+          description: Whether the project is externally managed
+    CreateProjectRequest:
+      type: object
+      required:
+        - project
+        - name
+      properties:
+        project:
+          type: string
+          description: Project key (unique, alphanumeric, dashes, underscores)
+        name:
+          type: string
+          description: Project display name
+        visibility:
+          type: string
+          enum: [public, private]
+          description: Project visibility
+        mainBranch:
+          type: string
+          description: Name of the main branch (default: main)
+    ProjectCreateResponse:
+      type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/Project'
+    IssueSearchResponse:
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/Paging'
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/Issue'
+        components:
+          type: array
+          items:
+            type: object
+        rules:
+          type: array
+          items:
+            type: object
+    Issue:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Unique issue key
+        rule:
+          type: string
+          description: Rule key that triggered the issue
+        severity:
+          type: string
+          enum: [INFO, MINOR, MAJOR, CRITICAL, BLOCKER]
+        component:
+          type: string
+          description: Component key where the issue was found
+        project:
+          type: string
+          description: Project key
+        line:
+          type: integer
+          description: Line number in the source file
+        hash:
+          type: string
+          description: Issue hash for deduplication
+        textRange:
+          type: object
+          properties:
+            startLine:
+              type: integer
+            endLine:
+              type: integer
+            startOffset:
+              type: integer
+            endOffset:
+              type: integer
+        status:
+          type: string
+          enum: [OPEN, CONFIRMED, REOPENED, RESOLVED, CLOSED]
+        resolution:
+          type: string
+          enum: [FIXED, FALSE-POSITIVE, WONTFIX, REMOVED]
+        type:
+          type: string
+          enum: [CODE_SMELL, BUG, VULNERABILITY, SECURITY_HOTSPOT]
+        message:
+          type: string
+          description: Issue description message
+        author:
+          type: string
+          description: SCM author of the issue
+        assignee:
+          type: string
+          description: Assigned user login
+        creationDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+        tags:
+          type: array
+          items:
+            type: string
+        effort:
+          type: string
+          description: Remediation effort estimate (e.g., 5min)
+        debt:
+          type: string
+          description: Technical debt amount
+    QualityGateListResponse:
+      type: object
+      properties:
+        qualitygates:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityGate'
+        default:
+          type: integer
+          description: ID of the default quality gate
+    QualityGate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Quality gate identifier
+        name:
+          type: string
+          description: Quality gate name
+        isDefault:
+          type: boolean
+        isBuiltIn:
+          type: boolean
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityGateCondition'
+    QualityGateCondition:
+      type: object
+      properties:
+        id:
+          type: string
+        metric:
+          type: string
+          description: Metric key for this condition
+        op:
+          type: string
+          enum: [LT, GT]
+          description: Comparison operator
+        error:
+          type: string
+          description: Threshold value that causes ERROR status
+    QualityGateStatus:
+      type: object
+      properties:
+        projectStatus:
+          type: object
+          properties:
+            status:
+              type: string
+              enum: [OK, ERROR, NONE]
+            conditions:
+              type: array
+              items:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [OK, ERROR, NO_VALUE]
+                  metricKey:
+                    type: string
+                  comparator:
+                    type: string
+                  errorThreshold:
+                    type: string
+                  actualValue:
+                    type: string
+            periods:
+              type: array
+              items:
+                type: object
+            ignoredConditions:
+              type: boolean
+    ComponentMeasuresResponse:
+      type: object
+      properties:
+        component:
+          type: object
+          properties:
+            key:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            qualifier:
+              type: string
+            measures:
+              type: array
+              items:
+                $ref: '#/components/schemas/Measure'
+    Measure:
+      type: object
+      properties:
+        metric:
+          type: string
+          description: Metric key (e.g., coverage, bugs, vulnerabilities)
+        value:
+          type: string
+          description: Metric value
+        bestValue:
+          type: boolean
+          description: Whether this value is the best possible for the metric
+        period:
+          type: object
+          properties:
+            index:
+              type: integer
+            value:
+              type: string
+            bestValue:
+              type: boolean
+    RuleSearchResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        p:
+          type: integer
+        ps:
+          type: integer
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rule'
+    Rule:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Rule key (e.g., java:S1234)
+        name:
+          type: string
+          description: Rule name
+        status:
+          type: string
+          enum: [BETA, DEPRECATED, READY, REMOVED]
+        lang:
+          type: string
+          description: Language key
+        langName:
+          type: string
+          description: Language display name
+        type:
+          type: string
+          enum: [CODE_SMELL, BUG, VULNERABILITY, SECURITY_HOTSPOT]
+        severity:
+          type: string
+          enum: [INFO, MINOR, MAJOR, CRITICAL, BLOCKER]
+        htmlDesc:
+          type: string
+          description: HTML description of the rule
+        tags:
+          type: array
+          items:
+            type: string
+        repo:
+          type: string
+          description: Rule repository key
+    UserSearchResponse:
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/Paging'
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    User:
+      type: object
+      properties:
+        login:
+          type: string
+          description: User login (unique identifier)
+        name:
+          type: string
+          description: Display name
+        active:
+          type: boolean
+          description: Whether the account is active
+        email:
+          type: string
+          description: Email address
+        local:
+          type: boolean
+          description: Whether this is a local (non-LDAP/SSO) account
+        externalIdentity:
+          type: string
+          description: Identity for external authentication providers
+        externalProvider:
+          type: string
+          description: Authentication provider name
+        groups:
+          type: array
+          items:
+            type: string
+    SystemStatus:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Server ID
+        version:
+          type: string
+          description: SonarQube version
+        status:
+          type: string
+          enum: [UP, DOWN, STARTING, RESTARTING, DB_MIGRATION_NEEDED, DB_MIGRATION_RUNNING]
+    SystemHealth:
+      type: object
+      properties:
+        health:
+          type: string
+          enum: [GREEN, YELLOW, RED]
+        causes:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+        nodes:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+                enum: [APPLICATION, SEARCH]
+              host:
+                type: string
+              port:
+                type: integer
+              startedAt:
+                type: string
+                format: date-time
+              health:
+                type: string
+                enum: [GREEN, YELLOW, RED]
+              causes:
+                type: array
+                items:
+                  type: object
+    Paging:
+      type: object
+      properties:
+        pageIndex:
+          type: integer
+          description: Current page number
+        pageSize:
+          type: integer
+          description: Number of items per page
+        total:
+          type: integer
+          description: Total number of items
+tags:
+  - name: Issues
+    description: Code issue search and management
+  - name: Measures
+    description: Component metrics and measurement data
+  - name: Projects
+    description: Project creation, search, and management
+  - name: Quality Gates
+    description: Quality gate configuration and status
+  - name: Rules
+    description: Analysis rule search and configuration
+  - name: System
+    description: SonarQube server status and health monitoring
+  - name: Users
+    description: User account management

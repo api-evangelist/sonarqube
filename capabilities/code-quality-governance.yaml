@@ -1,0 +1,277 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "SonarQube Code Quality Governance"
+  description: >-
+    Unified workflow capability for AI-assisted code quality governance using
+    SonarQube. Combines issue tracking, quality gate monitoring, code metrics,
+    and rule management into a single workflow for developers, security engineers,
+    and engineering managers. Enables AI agents to audit code quality, detect
+    security vulnerabilities, enforce quality gates in CI/CD, and track technical debt.
+  tags:
+    - Code Quality
+    - DevOps
+    - Security
+    - SonarQube
+    - Static Analysis
+    - Technical Debt
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      SONARQUBE_TOKEN: SONARQUBE_TOKEN
+
+capability:
+  consumes:
+    - import: sonarqube
+      location: ./shared/sonarqube-web-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: sonarqube-governance-api
+      description: "Unified REST API for SonarQube code quality governance workflows."
+      resources:
+        - path: /v1/projects
+          name: projects
+          description: "Project inventory and analysis status"
+          operations:
+            - method: GET
+              name: search-projects
+              description: "Search projects by name or key"
+              call: "sonarqube.search-projects"
+              with:
+                q: "rest.q"
+                p: "rest.p"
+                ps: "rest.ps"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/issues
+          name: issues
+          description: "Code quality and security issues"
+          operations:
+            - method: GET
+              name: search-issues
+              description: "Search for bugs, vulnerabilities, and code smells"
+              call: "sonarqube.search-issues"
+              with:
+                componentKeys: "rest.componentKeys"
+                severities: "rest.severities"
+                types: "rest.types"
+                statuses: "rest.statuses"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/quality-gates
+          name: quality-gates
+          description: "Quality gate definitions"
+          operations:
+            - method: GET
+              name: list-quality-gates
+              description: "List all quality gates"
+              call: "sonarqube.list-quality-gates"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/quality-gate-status
+          name: quality-gate-status
+          description: "Project quality gate results"
+          operations:
+            - method: GET
+              name: get-quality-gate-status
+              description: "Get quality gate pass/fail status for a project"
+              call: "sonarqube.get-quality-gate-status"
+              with:
+                projectKey: "rest.projectKey"
+                branch: "rest.branch"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/measures
+          name: measures
+          description: "Code metrics and measurements"
+          operations:
+            - method: GET
+              name: get-component-measures
+              description: "Get code quality metrics for a project"
+              call: "sonarqube.get-component-measures"
+              with:
+                component: "rest.component"
+                metricKeys: "rest.metricKeys"
+                branch: "rest.branch"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/rules
+          name: rules
+          description: "Analysis rule catalog"
+          operations:
+            - method: GET
+              name: search-rules
+              description: "Search analysis rules"
+              call: "sonarqube.search-rules"
+              with:
+                q: "rest.q"
+                languages: "rest.languages"
+                types: "rest.types"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/system/status
+          name: system-status
+          description: "Server operational status"
+          operations:
+            - method: GET
+              name: get-system-status
+              description: "Check SonarQube server status"
+              call: "sonarqube.get-system-status"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: sonarqube-governance-mcp
+      transport: http
+      description: "MCP server for AI-assisted SonarQube code quality governance and security review."
+      tools:
+        - name: search-projects
+          description: "Search for SonarQube projects to audit or monitor code quality"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "sonarqube.search-projects"
+          with:
+            q: "tools.q"
+            p: "tools.p"
+            ps: "tools.ps"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: search-bugs
+          description: "Find code bugs in a project — reliability issues that cause incorrect runtime behavior"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "sonarqube.search-issues"
+          with:
+            componentKeys: "tools.projectKey"
+            types: "CODE_SMELL,BUG"
+            statuses: "OPEN,CONFIRMED,REOPENED"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: search-vulnerabilities
+          description: "Find security vulnerabilities in a project's code"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "sonarqube.search-issues"
+          with:
+            componentKeys: "tools.projectKey"
+            types: "VULNERABILITY,SECURITY_HOTSPOT"
+            statuses: "OPEN,CONFIRMED,REOPENED"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: search-issues
+          description: "Search for all types of code issues with full filtering (severity, type, status, rule)"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "sonarqube.search-issues"
+          with:
+            componentKeys: "tools.componentKeys"
+            severities: "tools.severities"
+            types: "tools.types"
+            statuses: "tools.statuses"
+            rules: "tools.rules"
+            p: "tools.p"
+            ps: "tools.ps"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: check-quality-gate
+          description: "Check if a project passes its quality gate — critical for CI/CD release decisions"
+          hints:
+            readOnly: true
+          call: "sonarqube.get-quality-gate-status"
+          with:
+            projectKey: "tools.projectKey"
+            branch: "tools.branch"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-quality-gates
+          description: "List all quality gate definitions with their metric conditions and thresholds"
+          hints:
+            readOnly: true
+          call: "sonarqube.list-quality-gates"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-code-metrics
+          description: "Get code quality metrics for a project: coverage, bugs, vulnerabilities, code smells, duplications"
+          hints:
+            readOnly: true
+          call: "sonarqube.get-component-measures"
+          with:
+            component: "tools.projectKey"
+            metricKeys: "tools.metricKeys"
+            branch: "tools.branch"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: search-security-rules
+          description: "Find security analysis rules applicable to a language for policy review"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "sonarqube.search-rules"
+          with:
+            languages: "tools.languages"
+            types: "VULNERABILITY,SECURITY_HOTSPOT"
+            q: "tools.q"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: search-rules
+          description: "Search all analysis rules by language, type, severity, or keyword"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "sonarqube.search-rules"
+          with:
+            q: "tools.q"
+            languages: "tools.languages"
+            types: "tools.types"
+            severities: "tools.severities"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-system-status
+          description: "Check SonarQube server version and operational status"
+          hints:
+            readOnly: true
+          call: "sonarqube.get-system-status"
+          outputParameters:
+            - type: object
+              mapping: "$."

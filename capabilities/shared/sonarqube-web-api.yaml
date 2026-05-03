@@ -1,0 +1,449 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "SonarQube Web API"
+  description: >-
+    HTTP API for programmatic interaction with SonarQube Server, enabling
+    management of projects, quality gates, issues, rules, users, and
+    integrations with CI/CD pipelines. Token-based authentication.
+  tags:
+    - Code Quality
+    - DevOps
+    - Security
+    - SonarQube
+    - Static Analysis
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      SONARQUBE_TOKEN: SONARQUBE_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: sonarqube
+      baseUri: https://sonarqube.example.com/api
+      description: "SonarQube Web API for code quality and security management"
+      authentication:
+        type: basic
+        username: "{{SONARQUBE_TOKEN}}"
+        password: ""
+      resources:
+        - name: projects
+          path: /projects
+          description: "Project creation, search, and management"
+          operations:
+            - name: search-projects
+              method: GET
+              description: "Search for projects on the SonarQube instance"
+              inputParameters:
+                - name: q
+                  in: query
+                  type: string
+                  required: false
+                  description: "Search query"
+                - name: p
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Page number"
+                - name: ps
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Page size"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: issues
+          path: /issues
+          description: "Code issue search and management"
+          operations:
+            - name: search-issues
+              method: GET
+              description: "Search for code issues across projects"
+              inputParameters:
+                - name: componentKeys
+                  in: query
+                  type: string
+                  required: false
+                  description: "Component keys to scope search"
+                - name: severities
+                  in: query
+                  type: string
+                  required: false
+                  description: "Severity filter (INFO, MINOR, MAJOR, CRITICAL, BLOCKER)"
+                - name: types
+                  in: query
+                  type: string
+                  required: false
+                  description: "Issue types (CODE_SMELL, BUG, VULNERABILITY)"
+                - name: statuses
+                  in: query
+                  type: string
+                  required: false
+                  description: "Status filter"
+                - name: p
+                  in: query
+                  type: integer
+                  required: false
+                - name: ps
+                  in: query
+                  type: integer
+                  required: false
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: quality-gates
+          path: /qualitygates
+          description: "Quality gate configuration and status"
+          operations:
+            - name: list-quality-gates
+              method: GET
+              description: "List all quality gates"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+            - name: get-quality-gate-status
+              method: GET
+              description: "Get quality gate status for a project"
+              inputParameters:
+                - name: projectKey
+                  in: query
+                  type: string
+                  required: false
+                - name: branch
+                  in: query
+                  type: string
+                  required: false
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: measures
+          path: /measures
+          description: "Component metrics and measurement data"
+          operations:
+            - name: get-component-measures
+              method: GET
+              description: "Get metrics for a specific component"
+              inputParameters:
+                - name: component
+                  in: query
+                  type: string
+                  required: true
+                - name: metricKeys
+                  in: query
+                  type: string
+                  required: true
+                - name: branch
+                  in: query
+                  type: string
+                  required: false
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: rules
+          path: /rules
+          description: "Analysis rule search and configuration"
+          operations:
+            - name: search-rules
+              method: GET
+              description: "Search for analysis rules"
+              inputParameters:
+                - name: q
+                  in: query
+                  type: string
+                  required: false
+                - name: languages
+                  in: query
+                  type: string
+                  required: false
+                - name: types
+                  in: query
+                  type: string
+                  required: false
+                - name: severities
+                  in: query
+                  type: string
+                  required: false
+                - name: p
+                  in: query
+                  type: integer
+                  required: false
+                - name: ps
+                  in: query
+                  type: integer
+                  required: false
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: users
+          path: /users
+          description: "User account management"
+          operations:
+            - name: search-users
+              method: GET
+              description: "Search for users in the SonarQube instance"
+              inputParameters:
+                - name: q
+                  in: query
+                  type: string
+                  required: false
+                - name: p
+                  in: query
+                  type: integer
+                  required: false
+                - name: ps
+                  in: query
+                  type: integer
+                  required: false
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: system
+          path: /system
+          description: "Server status and health monitoring"
+          operations:
+            - name: get-system-status
+              method: GET
+              description: "Get SonarQube server status and version"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+            - name: get-system-health
+              method: GET
+              description: "Get cluster health and node status"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: sonarqube-rest
+      resources:
+        - path: /v1/projects
+          name: projects
+          description: "Project management"
+          operations:
+            - method: GET
+              name: search-projects
+              description: "Search projects"
+              call: "sonarqube.search-projects"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/issues
+          name: issues
+          description: "Issue search"
+          operations:
+            - method: GET
+              name: search-issues
+              description: "Search issues"
+              call: "sonarqube.search-issues"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/quality-gates
+          name: quality-gates
+          description: "Quality gate management"
+          operations:
+            - method: GET
+              name: list-quality-gates
+              description: "List quality gates"
+              call: "sonarqube.list-quality-gates"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/quality-gate-status
+          name: quality-gate-status
+          description: "Project quality gate status"
+          operations:
+            - method: GET
+              name: get-quality-gate-status
+              description: "Get quality gate status"
+              call: "sonarqube.get-quality-gate-status"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/measures
+          name: measures
+          description: "Component measures"
+          operations:
+            - method: GET
+              name: get-component-measures
+              description: "Get component metrics"
+              call: "sonarqube.get-component-measures"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/rules
+          name: rules
+          description: "Analysis rules"
+          operations:
+            - method: GET
+              name: search-rules
+              description: "Search analysis rules"
+              call: "sonarqube.search-rules"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/system/status
+          name: system-status
+          description: "System status"
+          operations:
+            - method: GET
+              name: get-system-status
+              description: "Get server status"
+              call: "sonarqube.get-system-status"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9100
+      namespace: sonarqube-mcp
+      transport: http
+      tools:
+        - name: search-projects
+          description: "Search for projects on the SonarQube instance by name or key"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "sonarqube.search-projects"
+          with:
+            q: "tools.q"
+            p: "tools.p"
+            ps: "tools.ps"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: search-issues
+          description: "Search for code bugs, vulnerabilities, and code smells across projects"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "sonarqube.search-issues"
+          with:
+            componentKeys: "tools.componentKeys"
+            severities: "tools.severities"
+            types: "tools.types"
+            statuses: "tools.statuses"
+            p: "tools.p"
+            ps: "tools.ps"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-quality-gates
+          description: "List all quality gates with their conditions and thresholds"
+          hints:
+            readOnly: true
+          call: "sonarqube.list-quality-gates"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-quality-gate-status
+          description: "Get the quality gate pass/fail status for a specific project or branch"
+          hints:
+            readOnly: true
+          call: "sonarqube.get-quality-gate-status"
+          with:
+            projectKey: "tools.projectKey"
+            branch: "tools.branch"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-component-measures
+          description: "Get code metrics (coverage, bugs, vulnerabilities, code smells) for a project component"
+          hints:
+            readOnly: true
+          call: "sonarqube.get-component-measures"
+          with:
+            component: "tools.component"
+            metricKeys: "tools.metricKeys"
+            branch: "tools.branch"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: search-rules
+          description: "Search for analysis rules by language, type, severity, or keyword"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "sonarqube.search-rules"
+          with:
+            q: "tools.q"
+            languages: "tools.languages"
+            types: "tools.types"
+            severities: "tools.severities"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: search-users
+          description: "Search for user accounts in the SonarQube instance"
+          hints:
+            readOnly: true
+          call: "sonarqube.search-users"
+          with:
+            q: "tools.q"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-system-status
+          description: "Get SonarQube server version and operational status"
+          hints:
+            readOnly: true
+          call: "sonarqube.get-system-status"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-system-health
+          description: "Get SonarQube cluster health status including all nodes"
+          hints:
+            readOnly: true
+          call: "sonarqube.get-system-health"
+          outputParameters:
+            - type: object
+              mapping: "$."

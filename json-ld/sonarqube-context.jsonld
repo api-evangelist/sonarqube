@@ -1,0 +1,89 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "sonarqube": "https://docs.sonarsource.com/sonarqube-server/latest/vocabulary/",
+    "dcterms": "http://purl.org/dc/terms/",
+
+    "SonarQube": {
+      "@id": "schema:SoftwareApplication",
+      "@context": {
+        "version": "schema:version",
+        "name": "schema:name",
+        "url": "schema:url"
+      }
+    },
+
+    "Project": {
+      "@id": "schema:SoftwareSourceCode",
+      "@context": {
+        "key": "@id",
+        "name": "schema:name",
+        "visibility": "schema:accessMode",
+        "lastAnalysisDate": "schema:dateModified",
+        "revision": "sonarqube:revision"
+      }
+    },
+
+    "Issue": {
+      "@id": "schema:Action",
+      "@context": {
+        "key": "@id",
+        "rule": "sonarqube:rule",
+        "severity": "sonarqube:severity",
+        "type": "sonarqube:issueType",
+        "status": "sonarqube:issueStatus",
+        "resolution": "sonarqube:resolution",
+        "message": "schema:description",
+        "component": "sonarqube:component",
+        "line": "sonarqube:line",
+        "creationDate": "schema:dateCreated",
+        "updateDate": "schema:dateModified",
+        "assignee": "sonarqube:assignee",
+        "author": "schema:author",
+        "effort": "sonarqube:effort"
+      }
+    },
+
+    "QualityGate": {
+      "@id": "sonarqube:QualityGate",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "isDefault": "sonarqube:isDefault",
+        "isBuiltIn": "sonarqube:isBuiltIn",
+        "conditions": "sonarqube:conditions"
+      }
+    },
+
+    "Measure": {
+      "@id": "schema:MeasuredValue",
+      "@context": {
+        "metric": "schema:measurementMethod",
+        "value": "schema:value"
+      }
+    },
+
+    "Rule": {
+      "@id": "sonarqube:Rule",
+      "@context": {
+        "key": "@id",
+        "name": "schema:name",
+        "lang": "sonarqube:language",
+        "type": "sonarqube:ruleType",
+        "severity": "sonarqube:severity",
+        "htmlDesc": "schema:description"
+      }
+    },
+
+    "User": {
+      "@id": "schema:Person",
+      "@context": {
+        "login": "@id",
+        "name": "schema:name",
+        "email": "schema:email",
+        "active": "schema:active"
+      }
+    }
+  }
+}

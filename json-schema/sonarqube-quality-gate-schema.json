@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/sonarqube/main/json-schema/sonarqube-quality-gate-schema.json",
+  "title": "QualityGate",
+  "description": "A SonarQube quality gate defining the conditions a project must meet to be considered production-ready.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Quality gate identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Quality gate name (e.g., Sonar way)"
+    },
+    "isDefault": {
+      "type": "boolean",
+      "description": "Whether this is the default quality gate applied to new projects"
+    },
+    "isBuiltIn": {
+      "type": "boolean",
+      "description": "Whether this is a built-in Sonar way gate (non-editable)"
+    },
+    "conditions": {
+      "type": "array",
+      "description": "List of conditions that must be met",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "metric": {
+            "type": "string",
+            "description": "Metric key (e.g., new_coverage, new_reliability_rating)"
+          },
+          "op": {
+            "type": "string",
+            "enum": ["LT", "GT"],
+            "description": "Comparison operator: LT=less than, GT=greater than"
+          },
+          "error": {
+            "type": "string",
+            "description": "Threshold causing ERROR status"
+          }
+        }
+      }
+    }
+  },
+  "required": ["id", "name"]
+}

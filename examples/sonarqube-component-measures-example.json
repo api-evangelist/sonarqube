@@ -1,0 +1,59 @@
+{
+  "component": {
+    "key": "my-project",
+    "name": "My Project",
+    "qualifier": "TRK",
+    "measures": [
+      {
+        "metric": "coverage",
+        "value": "73.4",
+        "bestValue": false
+      },
+      {
+        "metric": "bugs",
+        "value": "3",
+        "bestValue": false
+      },
+      {
+        "metric": "vulnerabilities",
+        "value": "1",
+        "bestValue": false
+      },
+      {
+        "metric": "code_smells",
+        "value": "47",
+        "bestValue": false
+      },
+      {
+        "metric": "security_hotspots",
+        "value": "2",
+        "bestValue": false
+      },
+      {
+        "metric": "duplicated_lines_density",
+        "value": "2.1",
+        "bestValue": false
+      },
+      {
+        "metric": "ncloc",
+        "value": "12453",
+        "bestValue": false
+      },
+      {
+        "metric": "reliability_rating",
+        "value": "3.0",
+        "bestValue": false
+      },
+      {
+        "metric": "security_rating",
+        "value": "2.0",
+        "bestValue": false
+      },
+      {
+        "metric": "sqale_rating",
+        "value": "1.0",
+        "bestValue": true
+      }
+    ]
+  }
+}

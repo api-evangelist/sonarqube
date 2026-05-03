@@ -1,0 +1,74 @@
+{
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 100,
+    "total": 3
+  },
+  "issues": [
+    {
+      "key": "AXm9MXk5pRRGNpFwkHql",
+      "rule": "java:S2095",
+      "severity": "BLOCKER",
+      "component": "my-project:src/main/java/com/example/DatabaseService.java",
+      "project": "my-project",
+      "line": 45,
+      "hash": "a3b2c1d4e5f6",
+      "textRange": {
+        "startLine": 45,
+        "endLine": 47,
+        "startOffset": 8,
+        "endOffset": 52
+      },
+      "status": "OPEN",
+      "type": "BUG",
+      "message": "Use try-with-resources or close this \"Connection\" in a \"finally\" clause.",
+      "author": "alice@example.com",
+      "creationDate": "2026-04-15T09:23:00+0000",
+      "updateDate": "2026-04-15T09:23:00+0000",
+      "tags": ["cert", "cwe", "leak"],
+      "effort": "30min",
+      "debt": "30min"
+    },
+    {
+      "key": "BYn0NXl6qSRHOpGxlIrm",
+      "rule": "java:S3776",
+      "severity": "CRITICAL",
+      "component": "my-project:src/main/java/com/example/PaymentProcessor.java",
+      "project": "my-project",
+      "line": 112,
+      "status": "OPEN",
+      "type": "CODE_SMELL",
+      "message": "Refactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.",
+      "author": "bob@example.com",
+      "creationDate": "2026-04-10T14:05:00+0000",
+      "updateDate": "2026-04-10T14:05:00+0000",
+      "tags": ["brain-overload"],
+      "effort": "2h",
+      "debt": "2h"
+    },
+    {
+      "key": "CZo1OYm7rTSIPqHylJsn",
+      "rule": "java:S2068",
+      "severity": "BLOCKER",
+      "component": "my-project:src/main/java/com/example/LegacyConfig.java",
+      "project": "my-project",
+      "line": 23,
+      "status": "OPEN",
+      "type": "VULNERABILITY",
+      "message": "Remove this hard-coded password.",
+      "author": "charlie@example.com",
+      "creationDate": "2026-03-22T11:30:00+0000",
+      "updateDate": "2026-04-01T16:00:00+0000",
+      "tags": ["cwe", "owasp-a3"],
+      "effort": "5min",
+      "debt": "5min"
+    }
+  ],
+  "components": [
+    {
+      "key": "my-project",
+      "qualifier": "TRK",
+      "name": "My Project"
+    }
+  ]
+}

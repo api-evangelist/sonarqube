@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/sonarqube/main/json-schema/sonarqube-project-schema.json",
+  "title": "Project",
+  "description": "A SonarQube project (component) representing a codebase being analyzed for quality and security.",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "Unique project key (alphanumeric, dashes, underscores, dots)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Project display name"
+    },
+    "qualifier": {
+      "type": "string",
+      "enum": ["TRK", "APP", "VW"],
+      "description": "Component qualifier: TRK=project, APP=application, VW=view"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["public", "private"],
+      "description": "Project visibility"
+    },
+    "lastAnalysisDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the last successful analysis"
+    },
+    "revision": {
+      "type": "string",
+      "description": "SCM revision hash of the last analyzed commit"
+    },
+    "managed": {
+      "type": "boolean",
+      "description": "Whether the project is externally managed (via DevOps platform integration)"
+    },
+    "isAiCodeAssured": {
+      "type": "boolean",
+      "description": "Whether AI code assurance is enabled for this project"
+    }
+  },
+  "required": ["key", "name"]
+}

@@ -1,0 +1,217 @@
+vocabulary:
+  name: SonarQube Vocabulary
+  description: >-
+    Domain vocabulary for SonarQube — the leading open-source and commercial
+    code quality and security analysis platform. Covers static analysis concepts,
+    quality metrics, issue types, quality gates, and CI/CD integration terminology.
+  created: "2026-05-02"
+  modified: "2026-05-02"
+  tags:
+    - Code Quality
+    - DevOps
+    - Security
+    - SonarQube
+    - Static Analysis
+
+  terms:
+
+    - term: Static Analysis
+      category: Technology
+      definition: >-
+        Automated analysis of source code without executing it. SonarQube performs
+        static analysis using language-specific analyzers (SonarScanner) to detect
+        bugs, vulnerabilities, and code smells across 30+ programming languages.
+      relatedTerms:
+        - SonarScanner
+        - Issue
+        - Rule
+
+    - term: Issue
+      category: Core Concept
+      definition: >-
+        A code problem detected by SonarQube analysis. Issues are classified by
+        type (Bug, Vulnerability, Code Smell, Security Hotspot) and severity
+        (Blocker, Critical, Major, Minor, Info).
+      relatedTerms:
+        - Bug
+        - Vulnerability
+        - Code Smell
+        - Security Hotspot
+        - Rule
+
+    - term: Bug
+      category: Issue Type
+      definition: >-
+        A coding mistake that will or may produce incorrect behavior at runtime.
+        Bugs represent reliability issues that will cause code to behave
+        unexpectedly or crash under certain conditions.
+      relatedTerms:
+        - Issue
+        - Reliability Rating
+
+    - term: Vulnerability
+      category: Issue Type
+      definition: >-
+        A security weakness in code that can be exploited by attackers. SonarQube
+        detects vulnerabilities following OWASP Top 10, CWE, SANS Top 25, and
+        other security standard taxonomies.
+      relatedTerms:
+        - Security Hotspot
+        - Issue
+        - Security Rating
+        - OWASP
+
+    - term: Code Smell
+      category: Issue Type
+      definition: >-
+        A maintainability issue that doesn't cause immediate harm but makes code
+        harder to understand and maintain. Code smells increase technical debt
+        and make future bugs more likely.
+      relatedTerms:
+        - Technical Debt
+        - Maintainability Rating
+        - Issue
+
+    - term: Security Hotspot
+      category: Issue Type
+      definition: >-
+        A security-sensitive code location that requires manual review to determine
+        whether it represents a real vulnerability. Unlike vulnerabilities, hotspots
+        require a developer decision (reviewed/not reviewed).
+      relatedTerms:
+        - Vulnerability
+        - Issue
+
+    - term: Quality Gate
+      category: CI/CD
+      definition: >-
+        A set of conditions a project must meet to pass analysis. The built-in
+        "Sonar way" gate enforces Clean Code requirements on new code. Projects
+        failing the quality gate should not be released.
+      relatedTerms:
+        - Clean Code
+        - New Code Period
+        - Quality Gate Condition
+
+    - term: Quality Gate Condition
+      category: CI/CD
+      definition: >-
+        A single metric threshold in a quality gate definition. Conditions specify
+        a metric key, comparison operator (LT/GT), and error threshold. Common
+        conditions include new coverage >= 80%, new bugs = 0.
+      relatedTerms:
+        - Quality Gate
+        - Metric
+
+    - term: Rule
+      category: Analysis
+      definition: >-
+        A specific code check performed by SonarQube's analyzers. Each rule has
+        a unique key (e.g., java:S2095), type, severity, and description.
+        Rules come from Sonar repositories and can be customized in quality profiles.
+      relatedTerms:
+        - Quality Profile
+        - Issue
+        - Rule Repository
+
+    - term: Quality Profile
+      category: Configuration
+      definition: >-
+        A collection of rules activated for a specific language. Projects are
+        assigned quality profiles that determine which rules are applied during
+        analysis. The "Sonar way" profile is the recommended default.
+      relatedTerms:
+        - Rule
+        - Project
+
+    - term: Metric
+      category: Measurement
+      definition: >-
+        A numeric measurement calculated from analysis results. Key metrics
+        include: coverage (%), bugs (count), vulnerabilities (count),
+        code smells (count), duplicated_lines_density (%), ncloc (lines).
+      relatedTerms:
+        - Measure
+        - Coverage
+        - Quality Gate Condition
+
+    - term: Coverage
+      category: Metric
+      definition: >-
+        The percentage of source code lines executed by unit tests. SonarQube
+        distinguishes between overall coverage and new code coverage (applied
+        to the new code period in quality gates).
+      relatedTerms:
+        - Metric
+        - Quality Gate
+
+    - term: Technical Debt
+      category: Metric
+      definition: >-
+        An estimate of the remediation time required to fix all code smells,
+        expressed as a time value (e.g., 3h 30min). Drives the Maintainability
+        Rating (SQALE Rating) calculation.
+      relatedTerms:
+        - Code Smell
+        - Maintainability Rating
+
+    - term: New Code Period
+      category: Configuration
+      definition: >-
+        The time window defining what SonarQube considers "new code" for quality
+        gate evaluation. Can be set to: previous version, specific number of days,
+        a reference branch, or a specific date.
+      relatedTerms:
+        - Quality Gate
+        - Clean Code
+
+    - term: Clean Code
+      category: Philosophy
+      definition: >-
+        SonarSource's software quality framework emphasizing that new code should
+        always meet quality and security standards. The Sonar way quality gate
+        enforces Clean Code by focusing conditions on new code only.
+      relatedTerms:
+        - Quality Gate
+        - New Code Period
+
+    - term: SonarScanner
+      category: Tooling
+      definition: >-
+        The analysis engine used to scan source code and send results to SonarQube.
+        Available as SonarScanner CLI, Maven, Gradle, .NET, and as plugins for
+        Jenkins, GitHub Actions, GitLab CI, Azure DevOps, and Bitbucket Pipelines.
+      relatedTerms:
+        - Static Analysis
+        - CI/CD
+
+    - term: Severity
+      category: Classification
+      definition: >-
+        The impact level of an issue: Blocker (must fix), Critical (should fix),
+        Major (should fix), Minor (nice to fix), Info (informational). Severity
+        affects how issues are prioritized and whether the quality gate fails.
+      relatedTerms:
+        - Issue
+        - Quality Gate
+
+    - term: OWASP
+      category: Security Standard
+      definition: >-
+        Open Web Application Security Project — a security taxonomy referenced
+        by SonarQube rules. SonarQube maps vulnerabilities and hotspots to
+        OWASP Top 10 and OWASP ASVS categories.
+      relatedTerms:
+        - Vulnerability
+        - Security Hotspot
+        - CWE
+
+    - term: CWE
+      category: Security Standard
+      definition: >-
+        Common Weakness Enumeration — a community catalog of software weakness
+        types used by SonarQube to classify security issues. SonarQube maps
+        rules to CWE identifiers for standard reporting.
+      relatedTerms:
+        - OWASP
+        - Vulnerability
