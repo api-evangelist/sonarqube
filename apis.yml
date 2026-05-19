@@ -63,6 +63,8 @@ apis:
         title: Component Measures Example
 
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/sonarsource
   - type: Portal
     url: https://www.sonarsource.com/products/sonarqube/
   - type: Documentation
