@@ -2,13 +2,13 @@
   "repo": "sonarqube",
   "feeds": [
     {
-      "source": "https://www.sonarsource.com/blog/",
-      "feed_url": "",
+      "source": "https://github.com/SonarSource",
+      "feed_url": "https://github.com/SonarSource",
       "title": "",
       "saved": 0,
-      "error": "no_feed"
+      "method": "none"
     }
   ],
-  "fetched": "2026-05-17T20:48:52Z",
+  "fetched": "2026-06-01T23:35:02Z",
   "post_count": 0
 }
