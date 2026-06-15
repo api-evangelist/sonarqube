@@ -1,9 +1,8 @@
 aid: sonarqube
 name: SonarQube
 description: >-
-  SonarQube is a leading code quality and security platform that provides
-  Web APIs for managing projects, quality gates, issues, and integrations
-  with CI/CD pipelines to deliver clean, secure code.
+  SonarQube is a leading code quality and security platform that provides Web APIs for managing projects, quality gates,
+  issues, and integrations with CI/CD pipelines to deliver clean, secure code.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
@@ -11,8 +10,7 @@ tags:
   - DevOps
   - Security
   - Static Analysis
-url: >-
-  https://raw.githubusercontent.com/api-evangelist/sonarqube/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/sonarqube/refs/heads/main/apis.yml
 created: '2026-03-16'
 modified: '2026-05-19'
 specificationVersion: '0.19'
@@ -20,9 +18,8 @@ apis:
   - aid: sonarqube:web-api
     name: SonarQube Web API
     description: >-
-      HTTP API for programmatic interaction with SonarQube Server, enabling
-      management of projects, quality gates, issues, rules, users, and
-      integrations with external tools.
+      HTTP API for programmatic interaction with SonarQube Server, enabling management of projects, quality gates,
+      issues, rules, users, and integrations with external tools.
     humanURL: https://docs.sonarsource.com/sonarqube-server/latest/extension-guide/web-api/
     tags:
       - Code Quality
@@ -50,8 +47,6 @@ apis:
         url: json-ld/sonarqube-context.jsonld
       - type: SpectralRules
         url: rules/sonarqube-rules.yml
-      - type: NaftikoCapability
-        url: capabilities/shared/sonarqube-web-api.yaml
       - type: Example
         url: examples/sonarqube-search-issues-example.json
         title: Search Issues Example
@@ -61,7 +56,6 @@ apis:
       - type: Example
         url: examples/sonarqube-component-measures-example.json
         title: Component Measures Example
-
 common:
   - type: LinkedIn
     url: https://www.linkedin.com/company/sonarsource
@@ -87,9 +81,6 @@ common:
     url: https://www.sonarsource.com/terms/
   - type: PrivacyPolicy
     url: https://www.sonarsource.com/privacy/
-  - type: NaftikoCapability
-    url: capabilities/code-quality-governance.yaml
-    title: Code Quality Governance Workflow
   - type: Vocabulary
     url: vocabulary/sonarqube-vocabulary.yml
     title: SonarQube Vocabulary
