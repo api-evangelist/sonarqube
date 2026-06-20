@@ -4,7 +4,7 @@ description: >-
   SonarQube is a leading code quality and security platform that provides Web APIs for managing projects, quality gates,
   issues, and integrations with CI/CD pipelines to deliver clean, secure code.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Code Quality
   - DevOps
