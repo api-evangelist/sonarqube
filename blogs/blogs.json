@@ -2,11 +2,11 @@
   "repo": "sonarqube",
   "feeds": [
     {
-      "source": "https://www.sonarsource.com/blog/",
+      "source": "https://www.sonarsource.com/blog/rss.xml",
       "feed_url": "https://www.sonarsource.com/blog/rss.xml",
       "title": "",
-      "saved": 4,
-      "method": "discovered"
+      "saved": 3,
+      "method": "feed"
     },
     {
       "source": "https://github.com/SonarSource",
@@ -16,6 +16,6 @@
       "method": "none"
     }
   ],
-  "post_count": 8,
-  "fetched": "2026-06-14T20:42:17Z"
+  "post_count": 18,
+  "fetched": "2026-06-27T12:03:07Z"
 }

@@ -47,13 +47,13 @@ apis:
         url: json-ld/sonarqube-context.jsonld
       - type: SpectralRules
         url: rules/sonarqube-rules.yml
-      - type: Example
+      - type: Examples
         url: examples/sonarqube-search-issues-example.json
         title: Search Issues Example
-      - type: Example
+      - type: Examples
         url: examples/sonarqube-quality-gate-status-example.json
         title: Quality Gate Status Example
-      - type: Example
+      - type: Examples
         url: examples/sonarqube-component-measures-example.json
         title: Component Measures Example
 common:
