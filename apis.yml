@@ -57,6 +57,8 @@ apis:
         url: examples/sonarqube-component-measures-example.json
         title: Component Measures Example
 common:
+  - type: DomainSecurity
+    url: security/sonarqube-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/sonarsource
   - type: Portal
