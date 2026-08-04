@@ -523,7 +523,7 @@ components:
           description: Project visibility
         mainBranch:
           type: string
-          description: Name of the main branch (default: main)
+          description: "Name of the main branch (default: main)"
     ProjectCreateResponse:
       type: object
       properties:
