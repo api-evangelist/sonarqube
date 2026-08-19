@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SonarQube Web System API",
+    "version": "10.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "System",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get System Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{sonarqubeHost}/api/system/status"
+          },
+          "docs": "Get the operational status of the SonarQube instance, including server version and whether the system is UP, DOWN, STARTING, RESTARTING, DB_MIGRATION_NEEDED, or DB_MIGRATION_RUNNING."
+        },
+        {
+          "info": {
+            "name": "Get System Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{sonarqubeHost}/api/system/health",
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Get the health status of the SonarQube cluster including each node's health, causes of issues, and overall cluster health. Requires system passcode or System Administration permission."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

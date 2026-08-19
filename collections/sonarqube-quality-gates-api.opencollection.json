@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SonarQube Web Quality Gates API",
+    "version": "10.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Quality Gates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Quality Gates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{sonarqubeHost}/api/qualitygates/list",
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "List all quality gates defined in the SonarQube instance. Quality gates define the conditions a project must meet to be considered production-ready."
+        },
+        {
+          "info": {
+            "name": "Get Quality Gate Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{sonarqubeHost}/api/qualitygates/project_status",
+            "params": [
+              {
+                "name": "projectKey",
+                "value": "",
+                "type": "query",
+                "description": "Project key"
+              },
+              {
+                "name": "analysisId",
+                "value": "",
+                "type": "query",
+                "description": "Analysis ID (alternative to projectKey)"
+              },
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "Branch name"
+              },
+              {
+                "name": "pullRequest",
+                "value": "",
+                "type": "query",
+                "description": "Pull request identifier"
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Get the quality gate status for a specific project or analysis. Returns overall status (OK/ERROR) and individual condition results."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

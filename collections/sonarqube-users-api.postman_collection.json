@@ -1,0 +1,299 @@
+{
+  "item": [
+    {
+      "id": "30f54900-62a7-48d9-920f-0dc8975c031d",
+      "name": "Users",
+      "description": {
+        "content": "User account management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cb8adef8-14a9-421f-ab16-f351b8b6c38e",
+          "name": "Search Users",
+          "request": {
+            "name": "Search Users",
+            "description": {
+              "content": "Search for users in the SonarQube instance. Supports filtering by login, name, and group membership. Requires Administer System permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "Search query to filter by login or name"
+                },
+                {
+                  "disabled": false,
+                  "key": "p",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "disabled": false,
+                  "key": "ps",
+                  "value": "50",
+                  "description": "Page size"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Hostname of your SonarQube instance",
+                  "type": "any",
+                  "value": "{{sonarqubeHost}}",
+                  "key": "sonarqubeHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "01da15ed-ae04-4d21-945c-5ea6122ceb1d",
+              "name": "Successfully retrieved users",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "p",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ps",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paging\": {\n    \"pageIndex\": 4523,\n    \"pageSize\": 3336,\n    \"total\": 4529\n  },\n  \"users\": [\n    {\n      \"login\": \"string\",\n      \"name\": \"string\",\n      \"active\": false,\n      \"email\": \"string\",\n      \"local\": false,\n      \"externalIdentity\": \"string\",\n      \"externalProvider\": \"string\",\n      \"groups\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"login\": \"string\",\n      \"name\": \"string\",\n      \"active\": false,\n      \"email\": \"string\",\n      \"local\": true,\n      \"externalIdentity\": \"string\",\n      \"externalProvider\": \"string\",\n      \"groups\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4df51eaf-573c-45b0-a0d0-a25bef16aa7f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "p",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ps",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ad5bf75a-5398-4de4-b77c-ebab26a04695",
+              "name": "Forbidden - Insufficient permissions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "p",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ps",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Hostname of your SonarQube instance",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "sonarqube.example.com",
+      "key": "sonarqubeHost"
+    },
+    {
+      "type": "string",
+      "value": "https://{{sonarqubeHost}}/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b7c8094d-c229-483f-b97c-e8c334252362",
+    "name": "SonarQube Web Users API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SonarQube Web API provides HTTP endpoints for programmatic interaction with SonarQube Server. It enables management of projects, quality gates, issues, rules, users, groups, permissions, and CI/CD integrations. The API uses token-based authentication and follows REST conventions. It powers the SonarQube web UI and is used for CI/CD integration, custom tooling, and third-party plugin development.\n\nContact Support:\n Name: SonarSource",
+      "type": "text/plain"
+    }
+  }
+}

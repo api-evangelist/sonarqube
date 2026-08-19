@@ -1,0 +1,150 @@
+openapi: 3.2.0
+info:
+  title: SonarQube Web Rules API
+  description: The SonarQube Web API provides HTTP endpoints for programmatic interaction with SonarQube Server. It enables management of projects, quality gates, issues, rules, users, groups, permissions, and CI/CD integrations. The API uses token-based authentication and follows REST conventions. It powers the SonarQube web UI and is used for CI/CD integration, custom tooling, and third-party plugin development.
+  version: 10.0.0
+  contact:
+    name: SonarSource
+    url: https://community.sonarsource.com/
+  license:
+    name: GNU Lesser General Public License v3.0
+    url: https://www.gnu.org/licenses/lgpl-3.0.html
+servers:
+- url: https://{sonarqubeHost}/api
+  description: SonarQube Server
+  variables:
+    sonarqubeHost:
+      default: sonarqube.example.com
+      description: Hostname of your SonarQube instance
+tags:
+- name: Rules
+  description: Analysis rule search and configuration
+paths:
+  /rules/search:
+    get:
+      operationId: searchRules
+      summary: Search Rules
+      description: Search for analysis rules available in SonarQube. Supports filtering by language, type, severity, quality profile, repository, and tags. Rules define the code quality and security checks performed during analysis.
+      tags:
+      - Rules
+      parameters:
+      - name: q
+        in: query
+        description: Search query for rule name or key
+        schema:
+          type: string
+      - name: languages
+        in: query
+        description: Comma-separated language keys
+        schema:
+          type: string
+      - name: types
+        in: query
+        description: Comma-separated rule types
+        schema:
+          type: string
+      - name: severities
+        in: query
+        description: Comma-separated severities
+        schema:
+          type: string
+      - name: repositories
+        in: query
+        description: Comma-separated rule repository keys
+        schema:
+          type: string
+      - name: p
+        in: query
+        description: Page number
+        schema:
+          type: integer
+          default: 1
+      - name: ps
+        in: query
+        description: Page size
+        schema:
+          type: integer
+          default: 100
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleSearchResponse'
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+    Rule:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Rule key (e.g., java:S1234)
+        name:
+          type: string
+          description: Rule name
+        status:
+          type: string
+          enum:
+          - BETA
+          - DEPRECATED
+          - READY
+          - REMOVED
+        lang:
+          type: string
+          description: Language key
+        langName:
+          type: string
+          description: Language display name
+        type:
+          type: string
+          enum:
+          - CODE_SMELL
+          - BUG
+          - VULNERABILITY
+          - SECURITY_HOTSPOT
+        severity:
+          type: string
+          enum:
+          - INFO
+          - MINOR
+          - MAJOR
+          - CRITICAL
+          - BLOCKER
+        htmlDesc:
+          type: string
+          description: HTML description of the rule
+        tags:
+          type: array
+          items:
+            type: string
+        repo:
+          type: string
+          description: Rule repository key
+    RuleSearchResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        p:
+          type: integer
+        ps:
+          type: integer
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rule'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Basic authentication using a user token as the username and an empty password. Generate tokens in User > My Account > Security.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication using a SonarQube user token.

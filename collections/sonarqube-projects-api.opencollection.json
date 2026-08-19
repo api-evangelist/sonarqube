@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SonarQube Web Projects API",
+    "version": "10.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{sonarqubeHost}/api/projects/search",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query to filter projects by name or key"
+              },
+              {
+                "name": "p",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "ps",
+                "value": "",
+                "type": "query",
+                "description": "Page size (max 500)"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "Filter string (e.g. alert_status=OK)"
+              },
+              {
+                "name": "qualitygate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by quality gate name"
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Search for projects and components on the SonarQube instance. Supports filtering by organization, quality gate, languages, tags, and analysis date. Returns paginated results with component details."
+        },
+        {
+          "info": {
+            "name": "Create Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{sonarqubeHost}/api/projects/create",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Create a new project in SonarQube. Sets the project key, name, visibility (public/private), and optional quality profile associations."
+        },
+        {
+          "info": {
+            "name": "Delete Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{sonarqubeHost}/api/projects/delete",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "project",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Delete a project and all its associated data including analysis history, issues, and quality gate status."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

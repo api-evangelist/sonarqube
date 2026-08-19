@@ -1,0 +1,78 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SonarQube Web Rules API",
+    "version": "10.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{sonarqubeHost}/api/rules/search",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query for rule name or key"
+              },
+              {
+                "name": "languages",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated language keys"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated rule types"
+              },
+              {
+                "name": "severities",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated severities"
+              },
+              {
+                "name": "repositories",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated rule repository keys"
+              },
+              {
+                "name": "p",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "ps",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Search for analysis rules available in SonarQube. Supports filtering by language, type, severity, quality profile, repository, and tags. Rules define the code quality and security checks performed during analysis."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

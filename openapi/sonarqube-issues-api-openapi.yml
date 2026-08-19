@@ -1,0 +1,216 @@
+openapi: 3.2.0
+info:
+  title: SonarQube Web Issues API
+  description: The SonarQube Web API provides HTTP endpoints for programmatic interaction with SonarQube Server. It enables management of projects, quality gates, issues, rules, users, groups, permissions, and CI/CD integrations. The API uses token-based authentication and follows REST conventions. It powers the SonarQube web UI and is used for CI/CD integration, custom tooling, and third-party plugin development.
+  version: 10.0.0
+  contact:
+    name: SonarSource
+    url: https://community.sonarsource.com/
+  license:
+    name: GNU Lesser General Public License v3.0
+    url: https://www.gnu.org/licenses/lgpl-3.0.html
+servers:
+- url: https://{sonarqubeHost}/api
+  description: SonarQube Server
+  variables:
+    sonarqubeHost:
+      default: sonarqube.example.com
+      description: Hostname of your SonarQube instance
+tags:
+- name: Issues
+  description: Code issue search and management
+paths:
+  /issues/search:
+    get:
+      operationId: searchIssues
+      summary: Search Issues
+      description: Search for code issues across projects. Supports filtering by severity, type, status, assignee, resolution, language, rule, tags, date ranges, and component scope.
+      tags:
+      - Issues
+      parameters:
+      - name: componentKeys
+        in: query
+        description: Comma-separated list of component keys to scope the search
+        schema:
+          type: string
+      - name: severities
+        in: query
+        description: Comma-separated severities (INFO, MINOR, MAJOR, CRITICAL, BLOCKER)
+        schema:
+          type: string
+      - name: types
+        in: query
+        description: Comma-separated issue types (CODE_SMELL, BUG, VULNERABILITY, SECURITY_HOTSPOT)
+        schema:
+          type: string
+      - name: statuses
+        in: query
+        description: Comma-separated statuses (OPEN, CONFIRMED, REOPENED, RESOLVED, CLOSED)
+        schema:
+          type: string
+      - name: resolved
+        in: query
+        description: Filter by resolution status
+        schema:
+          type: boolean
+      - name: rules
+        in: query
+        description: Comma-separated rule keys
+        schema:
+          type: string
+      - name: languages
+        in: query
+        description: Comma-separated language keys
+        schema:
+          type: string
+      - name: p
+        in: query
+        description: Page number
+        schema:
+          type: integer
+          default: 1
+      - name: ps
+        in: query
+        description: Page size (max 500)
+        schema:
+          type: integer
+          default: 100
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved issues
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssueSearchResponse'
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+    Paging:
+      type: object
+      properties:
+        pageIndex:
+          type: integer
+          description: Current page number
+        pageSize:
+          type: integer
+          description: Number of items per page
+        total:
+          type: integer
+          description: Total number of items
+    Issue:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Unique issue key
+        rule:
+          type: string
+          description: Rule key that triggered the issue
+        severity:
+          type: string
+          enum:
+          - INFO
+          - MINOR
+          - MAJOR
+          - CRITICAL
+          - BLOCKER
+        component:
+          type: string
+          description: Component key where the issue was found
+        project:
+          type: string
+          description: Project key
+        line:
+          type: integer
+          description: Line number in the source file
+        hash:
+          type: string
+          description: Issue hash for deduplication
+        textRange:
+          type: object
+          properties:
+            startLine:
+              type: integer
+            endLine:
+              type: integer
+            startOffset:
+              type: integer
+            endOffset:
+              type: integer
+        status:
+          type: string
+          enum:
+          - OPEN
+          - CONFIRMED
+          - REOPENED
+          - RESOLVED
+          - CLOSED
+        resolution:
+          type: string
+          enum:
+          - FIXED
+          - FALSE-POSITIVE
+          - WONTFIX
+          - REMOVED
+        type:
+          type: string
+          enum:
+          - CODE_SMELL
+          - BUG
+          - VULNERABILITY
+          - SECURITY_HOTSPOT
+        message:
+          type: string
+          description: Issue description message
+        author:
+          type: string
+          description: SCM author of the issue
+        assignee:
+          type: string
+          description: Assigned user login
+        creationDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+        tags:
+          type: array
+          items:
+            type: string
+        effort:
+          type: string
+          description: Remediation effort estimate (e.g., 5min)
+        debt:
+          type: string
+          description: Technical debt amount
+    IssueSearchResponse:
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/Paging'
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/Issue'
+        components:
+          type: array
+          items:
+            type: object
+        rules:
+          type: array
+          items:
+            type: object
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Basic authentication using a user token as the username and an empty password. Generate tokens in User > My Account > Security.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication using a SonarQube user token.

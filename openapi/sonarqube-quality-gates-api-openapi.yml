@@ -1,0 +1,175 @@
+openapi: 3.2.0
+info:
+  title: SonarQube Web Quality Gates API
+  description: The SonarQube Web API provides HTTP endpoints for programmatic interaction with SonarQube Server. It enables management of projects, quality gates, issues, rules, users, groups, permissions, and CI/CD integrations. The API uses token-based authentication and follows REST conventions. It powers the SonarQube web UI and is used for CI/CD integration, custom tooling, and third-party plugin development.
+  version: 10.0.0
+  contact:
+    name: SonarSource
+    url: https://community.sonarsource.com/
+  license:
+    name: GNU Lesser General Public License v3.0
+    url: https://www.gnu.org/licenses/lgpl-3.0.html
+servers:
+- url: https://{sonarqubeHost}/api
+  description: SonarQube Server
+  variables:
+    sonarqubeHost:
+      default: sonarqube.example.com
+      description: Hostname of your SonarQube instance
+tags:
+- name: Quality Gates
+  description: Quality gate configuration and status
+paths:
+  /qualitygates/list:
+    get:
+      operationId: listQualityGates
+      summary: List Quality Gates
+      description: List all quality gates defined in the SonarQube instance. Quality gates define the conditions a project must meet to be considered production-ready.
+      tags:
+      - Quality Gates
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved quality gates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityGateListResponse'
+        '401':
+          description: Unauthorized
+  /qualitygates/project_status:
+    get:
+      operationId: getQualityGateStatus
+      summary: Get Quality Gate Status
+      description: Get the quality gate status for a specific project or analysis. Returns overall status (OK/ERROR) and individual condition results.
+      tags:
+      - Quality Gates
+      parameters:
+      - name: projectKey
+        in: query
+        description: Project key
+        schema:
+          type: string
+      - name: analysisId
+        in: query
+        description: Analysis ID (alternative to projectKey)
+        schema:
+          type: string
+      - name: branch
+        in: query
+        description: Branch name
+        schema:
+          type: string
+      - name: pullRequest
+        in: query
+        description: Pull request identifier
+        schema:
+          type: string
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved quality gate status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityGateStatus'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Project not found
+components:
+  schemas:
+    QualityGateCondition:
+      type: object
+      properties:
+        id:
+          type: string
+        metric:
+          type: string
+          description: Metric key for this condition
+        op:
+          type: string
+          enum:
+          - LT
+          - GT
+          description: Comparison operator
+        error:
+          type: string
+          description: Threshold value that causes ERROR status
+    QualityGate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Quality gate identifier
+        name:
+          type: string
+          description: Quality gate name
+        isDefault:
+          type: boolean
+        isBuiltIn:
+          type: boolean
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityGateCondition'
+    QualityGateStatus:
+      type: object
+      properties:
+        projectStatus:
+          type: object
+          properties:
+            status:
+              type: string
+              enum:
+              - OK
+              - ERROR
+              - NONE
+            conditions:
+              type: array
+              items:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - OK
+                    - ERROR
+                    - NO_VALUE
+                  metricKey:
+                    type: string
+                  comparator:
+                    type: string
+                  errorThreshold:
+                    type: string
+                  actualValue:
+                    type: string
+            periods:
+              type: array
+              items:
+                type: object
+            ignoredConditions:
+              type: boolean
+    QualityGateListResponse:
+      type: object
+      properties:
+        qualitygates:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityGate'
+        default:
+          type: integer
+          description: ID of the default quality gate
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Basic authentication using a user token as the username and an empty password. Generate tokens in User > My Account > Security.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication using a SonarQube user token.

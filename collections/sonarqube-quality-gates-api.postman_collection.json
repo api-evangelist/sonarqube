@@ -1,0 +1,470 @@
+{
+  "item": [
+    {
+      "id": "fc249fb9-3a1c-47a8-95aa-4c253c250340",
+      "name": "Quality Gates",
+      "description": {
+        "content": "Quality gate configuration and status",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e93fb049-1c5a-4f04-b2cb-e7c444da427c",
+          "name": "List Quality Gates",
+          "request": {
+            "name": "List Quality Gates",
+            "description": {
+              "content": "List all quality gates defined in the SonarQube instance. Quality gates define the conditions a project must meet to be considered production-ready.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "qualitygates",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Hostname of your SonarQube instance",
+                  "type": "any",
+                  "value": "{{sonarqubeHost}}",
+                  "key": "sonarqubeHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b9763ec3-d5dd-4f2a-8fc8-2be1ac153429",
+              "name": "Successfully retrieved quality gates",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "qualitygates",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"qualitygates\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"isDefault\": true,\n      \"isBuiltIn\": false,\n      \"conditions\": [\n        {\n          \"id\": \"string\",\n          \"metric\": \"string\",\n          \"op\": \"LT\",\n          \"error\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"metric\": \"string\",\n          \"op\": \"GT\",\n          \"error\": \"string\"\n        }\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"isDefault\": false,\n      \"isBuiltIn\": true,\n      \"conditions\": [\n        {\n          \"id\": \"string\",\n          \"metric\": \"string\",\n          \"op\": \"LT\",\n          \"error\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"metric\": \"string\",\n          \"op\": \"LT\",\n          \"error\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"default\": 1788\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3a034d46-faec-4480-a38d-7859ad628c58",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "qualitygates",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ca3d92ec-622a-475b-be40-22128bbbddcb",
+          "name": "Get Quality Gate Status",
+          "request": {
+            "name": "Get Quality Gate Status",
+            "description": {
+              "content": "Get the quality gate status for a specific project or analysis. Returns overall status (OK/ERROR) and individual condition results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "qualitygates",
+                "project_status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectKey",
+                  "value": "<string>",
+                  "description": "Project key"
+                },
+                {
+                  "disabled": false,
+                  "key": "analysisId",
+                  "value": "<string>",
+                  "description": "Analysis ID (alternative to projectKey)"
+                },
+                {
+                  "disabled": false,
+                  "key": "branch",
+                  "value": "<string>",
+                  "description": "Branch name"
+                },
+                {
+                  "disabled": false,
+                  "key": "pullRequest",
+                  "value": "<string>",
+                  "description": "Pull request identifier"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Hostname of your SonarQube instance",
+                  "type": "any",
+                  "value": "{{sonarqubeHost}}",
+                  "key": "sonarqubeHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f4deb9fc-b39b-4a54-9e45-c3f794fb68af",
+              "name": "Successfully retrieved quality gate status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "qualitygates",
+                    "project_status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "analysisId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pullRequest",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"projectStatus\": {\n    \"status\": \"NONE\",\n    \"conditions\": [\n      {\n        \"status\": \"NO_VALUE\",\n        \"metricKey\": \"string\",\n        \"comparator\": \"string\",\n        \"errorThreshold\": \"string\",\n        \"actualValue\": \"string\"\n      },\n      {\n        \"status\": \"ERROR\",\n        \"metricKey\": \"string\",\n        \"comparator\": \"string\",\n        \"errorThreshold\": \"string\",\n        \"actualValue\": \"string\"\n      }\n    ],\n    \"ignoredConditions\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "856737f9-06bd-4761-a115-6c574b92736c",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "qualitygates",
+                    "project_status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "analysisId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pullRequest",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f0697d10-0e6e-4d5d-b0ad-0b042cd08ac6",
+              "name": "Project not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "qualitygates",
+                    "project_status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "analysisId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pullRequest",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Hostname of your SonarQube instance",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "sonarqube.example.com",
+      "key": "sonarqubeHost"
+    },
+    {
+      "type": "string",
+      "value": "https://{{sonarqubeHost}}/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "175dd6cb-4963-44e1-9106-b44b36f53e3a",
+    "name": "SonarQube Web Quality Gates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SonarQube Web API provides HTTP endpoints for programmatic interaction with SonarQube Server. It enables management of projects, quality gates, issues, rules, users, groups, permissions, and CI/CD integrations. The API uses token-based authentication and follows REST conventions. It powers the SonarQube web UI and is used for CI/CD integration, custom tooling, and third-party plugin development.\n\nContact Support:\n Name: SonarSource",
+      "type": "text/plain"
+    }
+  }
+}

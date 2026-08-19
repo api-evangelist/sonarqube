@@ -1,0 +1,280 @@
+{
+  "item": [
+    {
+      "id": "f486ae39-7ef3-44c3-b712-b5bababc1adb",
+      "name": "System",
+      "description": {
+        "content": "SonarQube server status and health monitoring",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2a2849ef-1ff3-43ac-bd55-8e256d88b43c",
+          "name": "Get System Status",
+          "request": {
+            "name": "Get System Status",
+            "description": {
+              "content": "Get the operational status of the SonarQube instance, including server version and whether the system is UP, DOWN, STARTING, RESTARTING, DB_MIGRATION_NEEDED, or DB_MIGRATION_RUNNING.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "system",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Hostname of your SonarQube instance",
+                  "type": "any",
+                  "value": "{{sonarqubeHost}}",
+                  "key": "sonarqubeHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "16408c90-87ac-44de-b90e-f6fcf768ed49",
+              "name": "Successfully retrieved system status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "system",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"version\": \"string\",\n  \"status\": \"STARTING\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a105bd1a-b626-4260-81c4-bc19be44be83",
+          "name": "Get System Health",
+          "request": {
+            "name": "Get System Health",
+            "description": {
+              "content": "Get the health status of the SonarQube cluster including each node's health, causes of issues, and overall cluster health. Requires system passcode or System Administration permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "system",
+                "health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Hostname of your SonarQube instance",
+                  "type": "any",
+                  "value": "{{sonarqubeHost}}",
+                  "key": "sonarqubeHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "300a0160-7b51-4a5d-a670-6a52686395ec",
+              "name": "Successfully retrieved system health",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "system",
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"health\": \"GREEN\",\n  \"causes\": [\n    {\n      \"message\": \"string\"\n    },\n    {\n      \"message\": \"string\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"name\": \"string\",\n      \"type\": \"APPLICATION\",\n      \"host\": \"string\",\n      \"port\": 7273,\n      \"startedAt\": \"1991-11-21T07:14:38.579Z\",\n      \"health\": \"RED\"\n    },\n    {\n      \"name\": \"string\",\n      \"type\": \"SEARCH\",\n      \"host\": \"string\",\n      \"port\": 5391,\n      \"startedAt\": \"1963-02-10T23:51:34.989Z\",\n      \"health\": \"RED\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f584190a-a5a5-4354-960a-ae29ed9dcd91",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "system",
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Hostname of your SonarQube instance",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "sonarqube.example.com",
+      "key": "sonarqubeHost"
+    },
+    {
+      "type": "string",
+      "value": "https://{{sonarqubeHost}}/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ce12da94-a860-4378-8cce-fec94625b765",
+    "name": "SonarQube Web System API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SonarQube Web API provides HTTP endpoints for programmatic interaction with SonarQube Server. It enables management of projects, quality gates, issues, rules, users, groups, permissions, and CI/CD integrations. The API uses token-based authentication and follows REST conventions. It powers the SonarQube web UI and is used for CI/CD integration, custom tooling, and third-party plugin development.\n\nContact Support:\n Name: SonarSource",
+      "type": "text/plain"
+    }
+  }
+}

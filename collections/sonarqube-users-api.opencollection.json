@@ -1,0 +1,54 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SonarQube Web Users API",
+    "version": "10.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{sonarqubeHost}/api/users/search",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query to filter by login or name"
+              },
+              {
+                "name": "p",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "ps",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Search for users in the SonarQube instance. Supports filtering by login, name, and group membership. Requires Administer System permission."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

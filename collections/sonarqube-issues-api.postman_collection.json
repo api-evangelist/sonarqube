@@ -1,0 +1,323 @@
+{
+  "item": [
+    {
+      "id": "1b3e87b3-b718-44f2-a65b-006aba71ddb2",
+      "name": "Issues",
+      "description": {
+        "content": "Code issue search and management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "60ba93e5-4f49-45ff-bcf3-9b48b0dac6a3",
+          "name": "Search Issues",
+          "request": {
+            "name": "Search Issues",
+            "description": {
+              "content": "Search for code issues across projects. Supports filtering by severity, type, status, assignee, resolution, language, rule, tags, date ranges, and component scope.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "issues",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "componentKeys",
+                  "value": "<string>",
+                  "description": "Comma-separated list of component keys to scope the search"
+                },
+                {
+                  "disabled": false,
+                  "key": "severities",
+                  "value": "<string>",
+                  "description": "Comma-separated severities (INFO, MINOR, MAJOR, CRITICAL, BLOCKER)"
+                },
+                {
+                  "disabled": false,
+                  "key": "types",
+                  "value": "<string>",
+                  "description": "Comma-separated issue types (CODE_SMELL, BUG, VULNERABILITY, SECURITY_HOTSPOT)"
+                },
+                {
+                  "disabled": false,
+                  "key": "statuses",
+                  "value": "<string>",
+                  "description": "Comma-separated statuses (OPEN, CONFIRMED, REOPENED, RESOLVED, CLOSED)"
+                },
+                {
+                  "disabled": false,
+                  "key": "resolved",
+                  "value": "<boolean>",
+                  "description": "Filter by resolution status"
+                },
+                {
+                  "disabled": false,
+                  "key": "rules",
+                  "value": "<string>",
+                  "description": "Comma-separated rule keys"
+                },
+                {
+                  "disabled": false,
+                  "key": "languages",
+                  "value": "<string>",
+                  "description": "Comma-separated language keys"
+                },
+                {
+                  "disabled": false,
+                  "key": "p",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "disabled": false,
+                  "key": "ps",
+                  "value": "100",
+                  "description": "Page size (max 500)"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Hostname of your SonarQube instance",
+                  "type": "any",
+                  "value": "{{sonarqubeHost}}",
+                  "key": "sonarqubeHost"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f3071b87-f39a-4ea8-a7ab-4ad4615a24d8",
+              "name": "Successfully retrieved issues",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "issues",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "componentKeys",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severities",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "statuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "resolved",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "rules",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "languages",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "p",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ps",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paging\": {\n    \"pageIndex\": 5455,\n    \"pageSize\": 1022,\n    \"total\": 2114\n  },\n  \"issues\": [\n    {\n      \"key\": \"string\",\n      \"rule\": \"string\",\n      \"severity\": \"MINOR\",\n      \"component\": \"string\",\n      \"project\": \"string\",\n      \"line\": 3283,\n      \"hash\": \"string\",\n      \"textRange\": {\n        \"startLine\": 2985,\n        \"endLine\": 3572,\n        \"startOffset\": 9958,\n        \"endOffset\": 3162\n      },\n      \"status\": \"OPEN\",\n      \"resolution\": \"FIXED\",\n      \"type\": \"BUG\",\n      \"message\": \"string\",\n      \"author\": \"string\",\n      \"assignee\": \"string\",\n      \"creationDate\": \"1975-05-19T00:52:07.837Z\",\n      \"updateDate\": \"1984-10-09T01:43:14.989Z\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"effort\": \"string\",\n      \"debt\": \"string\"\n    },\n    {\n      \"key\": \"string\",\n      \"rule\": \"string\",\n      \"severity\": \"MINOR\",\n      \"component\": \"string\",\n      \"project\": \"string\",\n      \"line\": 733,\n      \"hash\": \"string\",\n      \"textRange\": {\n        \"startLine\": 2478,\n        \"endLine\": 5963,\n        \"startOffset\": 6362,\n        \"endOffset\": 6662\n      },\n      \"status\": \"REOPENED\",\n      \"resolution\": \"FALSE-POSITIVE\",\n      \"type\": \"SECURITY_HOTSPOT\",\n      \"message\": \"string\",\n      \"author\": \"string\",\n      \"assignee\": \"string\",\n      \"creationDate\": \"1995-02-14T09:03:31.505Z\",\n      \"updateDate\": \"2018-12-22T22:31:22.078Z\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"effort\": \"string\",\n      \"debt\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7794ffa1-6017-47fe-9f36-3ee07abb089f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "issues",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "componentKeys",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severities",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "statuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "resolved",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "rules",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "languages",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "p",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ps",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Hostname of your SonarQube instance",
+                      "type": "any",
+                      "value": "{{sonarqubeHost}}",
+                      "key": "sonarqubeHost"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Hostname of your SonarQube instance",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "sonarqube.example.com",
+      "key": "sonarqubeHost"
+    },
+    {
+      "type": "string",
+      "value": "https://{{sonarqubeHost}}/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5ffc451c-84fb-4bd7-98a3-c0f6fd4092d2",
+    "name": "SonarQube Web Issues API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SonarQube Web API provides HTTP endpoints for programmatic interaction with SonarQube Server. It enables management of projects, quality gates, issues, rules, users, groups, permissions, and CI/CD integrations. The API uses token-based authentication and follows REST conventions. It powers the SonarQube web UI and is used for CI/CD integration, custom tooling, and third-party plugin development.\n\nContact Support:\n Name: SonarSource",
+      "type": "text/plain"
+    }
+  }
+}
