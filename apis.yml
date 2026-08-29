@@ -4,6 +4,18 @@ description: >-
   SonarQube is a leading code quality and security platform that provides Web APIs for managing projects, quality gates,
   issues, and integrations with CI/CD pipelines to deliver clean, secure code.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: unknown
