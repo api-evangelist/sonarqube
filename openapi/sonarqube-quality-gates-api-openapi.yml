@@ -83,40 +83,16 @@ paths:
           description: Project not found
 components:
   schemas:
-    QualityGateCondition:
+    QualityGateListResponse:
       type: object
       properties:
-        id:
-          type: string
-        metric:
-          type: string
-          description: Metric key for this condition
-        op:
-          type: string
-          enum:
-          - LT
-          - GT
-          description: Comparison operator
-        error:
-          type: string
-          description: Threshold value that causes ERROR status
-    QualityGate:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Quality gate identifier
-        name:
-          type: string
-          description: Quality gate name
-        isDefault:
-          type: boolean
-        isBuiltIn:
-          type: boolean
-        conditions:
+        qualitygates:
           type: array
           items:
-            $ref: '#/components/schemas/QualityGateCondition'
+            $ref: '#/components/schemas/QualityGate'
+        default:
+          type: integer
+          description: ID of the default quality gate
     QualityGateStatus:
       type: object
       properties:
@@ -154,16 +130,40 @@ components:
                 type: object
             ignoredConditions:
               type: boolean
-    QualityGateListResponse:
+    QualityGateCondition:
       type: object
       properties:
-        qualitygates:
+        id:
+          type: string
+        metric:
+          type: string
+          description: Metric key for this condition
+        op:
+          type: string
+          enum:
+          - LT
+          - GT
+          description: Comparison operator
+        error:
+          type: string
+          description: Threshold value that causes ERROR status
+    QualityGate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Quality gate identifier
+        name:
+          type: string
+          description: Quality gate name
+        isDefault:
+          type: boolean
+        isBuiltIn:
+          type: boolean
+        conditions:
           type: array
           items:
-            $ref: '#/components/schemas/QualityGate'
-        default:
-          type: integer
-          description: ID of the default quality gate
+            $ref: '#/components/schemas/QualityGateCondition'
   securitySchemes:
     basicAuth:
       type: http

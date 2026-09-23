@@ -125,15 +125,23 @@ paths:
           description: Project not found
 components:
   schemas:
-    ProjectSearchResponse:
+    ProjectCreateResponse:
       type: object
       properties:
-        paging:
-          $ref: '#/components/schemas/Paging'
-        components:
-          type: array
-          items:
-            $ref: '#/components/schemas/Project'
+        project:
+          $ref: '#/components/schemas/Project'
+    Paging:
+      type: object
+      properties:
+        pageIndex:
+          type: integer
+          description: Current page number
+        pageSize:
+          type: integer
+          description: Number of items per page
+        total:
+          type: integer
+          description: Total number of items
     Project:
       type: object
       properties:
@@ -186,23 +194,15 @@ components:
         mainBranch:
           type: string
           description: 'Name of the main branch (default: main)'
-    ProjectCreateResponse:
+    ProjectSearchResponse:
       type: object
       properties:
-        project:
-          $ref: '#/components/schemas/Project'
-    Paging:
-      type: object
-      properties:
-        pageIndex:
-          type: integer
-          description: Current page number
-        pageSize:
-          type: integer
-          description: Number of items per page
-        total:
-          type: integer
-          description: Total number of items
+        paging:
+          $ref: '#/components/schemas/Paging'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
   securitySchemes:
     basicAuth:
       type: http

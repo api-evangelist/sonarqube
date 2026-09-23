@@ -1,13 +1,7 @@
 {
   "provider": "sonarqube",
   "sources": [
-    "sonarqube-issues-api-openapi.yml",
-    "sonarqube-measures-api-openapi.yml",
-    "sonarqube-projects-api-openapi.yml",
-    "sonarqube-quality-gates-api-openapi.yml",
-    "sonarqube-rules-api-openapi.yml",
-    "sonarqube-system-api-openapi.yml",
-    "sonarqube-users-api-openapi.yml"
+    "_original/sonarqube-web-api-openapi.yml"
   ],
   "outputs": [
     "sonarqube-issues-api-openapi.yml",
@@ -22,14 +16,17 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "sonarqube-issues-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "sonarqube-measures-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "sonarqube-projects-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "sonarqube-quality-gates-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "sonarqube-rules-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "sonarqube-system-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "sonarqube-users-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "sonarqube-web-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "sonarqube-issues-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sonarqube-measures-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sonarqube-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sonarqube-quality-gates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sonarqube-rules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sonarqube-system-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sonarqube-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
