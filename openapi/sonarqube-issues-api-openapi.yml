@@ -89,6 +89,23 @@ paths:
           description: Unauthorized
 components:
   schemas:
+    IssueSearchResponse:
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/Paging'
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/Issue'
+        components:
+          type: array
+          items:
+            type: object
+        rules:
+          type: array
+          items:
+            type: object
     Paging:
       type: object
       properties:
@@ -188,23 +205,6 @@ components:
         debt:
           type: string
           description: Technical debt amount
-    IssueSearchResponse:
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/Paging'
-        issues:
-          type: array
-          items:
-            $ref: '#/components/schemas/Issue'
-        components:
-          type: array
-          items:
-            type: object
-        rules:
-          type: array
-          items:
-            type: object
   securitySchemes:
     basicAuth:
       type: http
