@@ -61,6 +61,15 @@ paths:
           description: Forbidden - Insufficient permissions
 components:
   schemas:
+    UserSearchResponse:
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/Paging'
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
     User:
       type: object
       properties:
@@ -89,15 +98,6 @@ components:
           type: array
           items:
             type: string
-    UserSearchResponse:
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/Paging'
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
     Paging:
       type: object
       properties:

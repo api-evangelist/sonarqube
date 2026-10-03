@@ -100,23 +100,6 @@ components:
         error:
           type: string
           description: Threshold value that causes ERROR status
-    QualityGate:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Quality gate identifier
-        name:
-          type: string
-          description: Quality gate name
-        isDefault:
-          type: boolean
-        isBuiltIn:
-          type: boolean
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/QualityGateCondition'
     QualityGateListResponse:
       type: object
       properties:
@@ -164,6 +147,23 @@ components:
                 type: object
             ignoredConditions:
               type: boolean
+    QualityGate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Quality gate identifier
+        name:
+          type: string
+          description: Quality gate name
+        isDefault:
+          type: boolean
+        isBuiltIn:
+          type: boolean
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityGateCondition'
   securitySchemes:
     basicAuth:
       type: http

@@ -55,6 +55,24 @@ paths:
           description: Unauthorized
 components:
   schemas:
+    SystemStatus:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Server ID
+        version:
+          type: string
+          description: SonarQube version
+        status:
+          type: string
+          enum:
+          - UP
+          - DOWN
+          - STARTING
+          - RESTARTING
+          - DB_MIGRATION_NEEDED
+          - DB_MIGRATION_RUNNING
     SystemHealth:
       type: object
       properties:
@@ -100,24 +118,6 @@ components:
                 type: array
                 items:
                   type: object
-    SystemStatus:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Server ID
-        version:
-          type: string
-          description: SonarQube version
-        status:
-          type: string
-          enum:
-          - UP
-          - DOWN
-          - STARTING
-          - RESTARTING
-          - DB_MIGRATION_NEEDED
-          - DB_MIGRATION_RUNNING
   securitySchemes:
     basicAuth:
       type: http

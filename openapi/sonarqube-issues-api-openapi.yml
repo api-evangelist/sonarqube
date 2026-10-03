@@ -89,35 +89,6 @@ paths:
           description: Unauthorized
 components:
   schemas:
-    IssueSearchResponse:
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/Paging'
-        issues:
-          type: array
-          items:
-            $ref: '#/components/schemas/Issue'
-        components:
-          type: array
-          items:
-            type: object
-        rules:
-          type: array
-          items:
-            type: object
-    Paging:
-      type: object
-      properties:
-        pageIndex:
-          type: integer
-          description: Current page number
-        pageSize:
-          type: integer
-          description: Number of items per page
-        total:
-          type: integer
-          description: Total number of items
     Issue:
       type: object
       properties:
@@ -205,6 +176,35 @@ components:
         debt:
           type: string
           description: Technical debt amount
+    IssueSearchResponse:
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/Paging'
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/Issue'
+        components:
+          type: array
+          items:
+            type: object
+        rules:
+          type: array
+          items:
+            type: object
+    Paging:
+      type: object
+      properties:
+        pageIndex:
+          type: integer
+          description: Current page number
+        pageSize:
+          type: integer
+          description: Number of items per page
+        total:
+          type: integer
+          description: Total number of items
   securitySchemes:
     basicAuth:
       type: http
