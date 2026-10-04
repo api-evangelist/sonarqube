@@ -262,6 +262,9 @@ apis:
   - type: Examples
     url: examples/sonarqube-component-measures-example.json
 common:
+  - type: CapabilityMap
+    url: capabilities/sonarqube-capability-edges.yml
+    name: SonarQube Business Capability Map
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/sonarqube/overview
   - type: DomainSecurity

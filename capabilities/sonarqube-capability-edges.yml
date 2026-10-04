@@ -1,0 +1,42 @@
+slug: sonarqube
+provider: SonarQube
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Issues
+  spec_file: sonarqube-issues-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.8
+  evidence: 'GET /issues/search  searchIssues  Search Issues; schemas: Issue, IssueSearchResponse'
+  reason: Issues are static-analysis code defects/security findings from the code quality platform, matching
+    defect management under software quality engineering.
+- tag: Quality Gates
+  spec_file: sonarqube-quality-gates-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.75
+  evidence: 'GET /qualitygates/project_status  getQualityGateStatus; schemas: QualityGateCondition, QualityGateStatus'
+  reason: Quality gate conditions and pass/fail status govern acceptance of code analysis results — software
+    quality engineering, not enterprise quality assurance.
+- tag: Measures
+  spec_file: sonarqube-measures-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.7
+  evidence: 'GET /measures/component  getComponentMeasures; schemas: Measure, ComponentMeasuresResponse'
+  reason: Code quality measures per component are quality engineering metrics on the codebase, not business
+    or financial measures.
