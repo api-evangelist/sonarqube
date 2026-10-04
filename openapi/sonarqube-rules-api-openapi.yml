@@ -79,6 +79,19 @@ paths:
           description: Unauthorized
 components:
   schemas:
+    RuleSearchResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        p:
+          type: integer
+        ps:
+          type: integer
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rule'
     Rule:
       type: object
       properties:
@@ -126,19 +139,6 @@ components:
         repo:
           type: string
           description: Rule repository key
-    RuleSearchResponse:
-      type: object
-      properties:
-        total:
-          type: integer
-        p:
-          type: integer
-        ps:
-          type: integer
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/Rule'
   securitySchemes:
     basicAuth:
       type: http

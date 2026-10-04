@@ -125,6 +125,44 @@ paths:
           description: Project not found
 components:
   schemas:
+    Paging:
+      type: object
+      properties:
+        pageIndex:
+          type: integer
+          description: Current page number
+        pageSize:
+          type: integer
+          description: Number of items per page
+        total:
+          type: integer
+          description: Total number of items
+    ProjectCreateResponse:
+      type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/Project'
+    CreateProjectRequest:
+      type: object
+      required:
+      - project
+      - name
+      properties:
+        project:
+          type: string
+          description: Project key (unique, alphanumeric, dashes, underscores)
+        name:
+          type: string
+          description: Project display name
+        visibility:
+          type: string
+          enum:
+          - public
+          - private
+          description: Project visibility
+        mainBranch:
+          type: string
+          description: 'Name of the main branch (default: main)'
     Project:
       type: object
       properties:
@@ -156,44 +194,6 @@ components:
         managed:
           type: boolean
           description: Whether the project is externally managed
-    Paging:
-      type: object
-      properties:
-        pageIndex:
-          type: integer
-          description: Current page number
-        pageSize:
-          type: integer
-          description: Number of items per page
-        total:
-          type: integer
-          description: Total number of items
-    CreateProjectRequest:
-      type: object
-      required:
-      - project
-      - name
-      properties:
-        project:
-          type: string
-          description: Project key (unique, alphanumeric, dashes, underscores)
-        name:
-          type: string
-          description: Project display name
-        visibility:
-          type: string
-          enum:
-          - public
-          - private
-          description: Project visibility
-        mainBranch:
-          type: string
-          description: 'Name of the main branch (default: main)'
-    ProjectCreateResponse:
-      type: object
-      properties:
-        project:
-          $ref: '#/components/schemas/Project'
     ProjectSearchResponse:
       type: object
       properties:

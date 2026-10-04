@@ -70,6 +70,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
+    Paging:
+      type: object
+      properties:
+        pageIndex:
+          type: integer
+          description: Current page number
+        pageSize:
+          type: integer
+          description: Number of items per page
+        total:
+          type: integer
+          description: Total number of items
     User:
       type: object
       properties:
@@ -98,18 +110,6 @@ components:
           type: array
           items:
             type: string
-    Paging:
-      type: object
-      properties:
-        pageIndex:
-          type: integer
-          description: Current page number
-        pageSize:
-          type: integer
-          description: Number of items per page
-        total:
-          type: integer
-          description: Total number of items
   securitySchemes:
     basicAuth:
       type: http
