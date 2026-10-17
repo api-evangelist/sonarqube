@@ -125,18 +125,6 @@ paths:
           description: Project not found
 components:
   schemas:
-    Paging:
-      type: object
-      properties:
-        pageIndex:
-          type: integer
-          description: Current page number
-        pageSize:
-          type: integer
-          description: Number of items per page
-        total:
-          type: integer
-          description: Total number of items
     ProjectCreateResponse:
       type: object
       properties:
@@ -194,6 +182,18 @@ components:
         managed:
           type: boolean
           description: Whether the project is externally managed
+    Paging:
+      type: object
+      properties:
+        pageIndex:
+          type: integer
+          description: Current page number
+        pageSize:
+          type: integer
+          description: Number of items per page
+        total:
+          type: integer
+          description: Total number of items
     ProjectSearchResponse:
       type: object
       properties:

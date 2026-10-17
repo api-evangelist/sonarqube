@@ -83,33 +83,6 @@ paths:
           description: Project not found
 components:
   schemas:
-    QualityGate:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Quality gate identifier
-        name:
-          type: string
-          description: Quality gate name
-        isDefault:
-          type: boolean
-        isBuiltIn:
-          type: boolean
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/QualityGateCondition'
-    QualityGateListResponse:
-      type: object
-      properties:
-        qualitygates:
-          type: array
-          items:
-            $ref: '#/components/schemas/QualityGate'
-        default:
-          type: integer
-          description: ID of the default quality gate
     QualityGateStatus:
       type: object
       properties:
@@ -147,6 +120,33 @@ components:
                 type: object
             ignoredConditions:
               type: boolean
+    QualityGateListResponse:
+      type: object
+      properties:
+        qualitygates:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityGate'
+        default:
+          type: integer
+          description: ID of the default quality gate
+    QualityGate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Quality gate identifier
+        name:
+          type: string
+          description: Quality gate name
+        isDefault:
+          type: boolean
+        isBuiltIn:
+          type: boolean
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityGateCondition'
     QualityGateCondition:
       type: object
       properties:

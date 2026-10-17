@@ -66,6 +66,24 @@ paths:
           description: Component not found
 components:
   schemas:
+    ComponentMeasuresResponse:
+      type: object
+      properties:
+        component:
+          type: object
+          properties:
+            key:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            qualifier:
+              type: string
+            measures:
+              type: array
+              items:
+                $ref: '#/components/schemas/Measure'
     Measure:
       type: object
       properties:
@@ -87,24 +105,6 @@ components:
               type: string
             bestValue:
               type: boolean
-    ComponentMeasuresResponse:
-      type: object
-      properties:
-        component:
-          type: object
-          properties:
-            key:
-              type: string
-            name:
-              type: string
-            description:
-              type: string
-            qualifier:
-              type: string
-            measures:
-              type: array
-              items:
-                $ref: '#/components/schemas/Measure'
   securitySchemes:
     basicAuth:
       type: http
